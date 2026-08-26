@@ -3,10 +3,10 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- 브랜드: 딥 그린 + 블랙 포인트 -->
-    <color name="brand">#FF0B2018</color>          <!-- 상단바/상태바 (블랙에 가까운 딥그린) -->
-    <color name="brand_accent">#FF1F7A57</color>   <!-- 포인트 딥그린 -->
+    <color name="brand">#FF0B2018</color>
+    <color name="brand_accent">#FF1F7A57</color>
     <color name="brand_on_muted">#FFA9C4B7</color>
-    <color name="ink">#FF0B1512</color>            <!-- 블랙 포인트 -->
+    <color name="ink">#FF0B1512</color>
     <color name="ink_soft">#FF23302B</color>
 
     <!-- 표면/배경/텍스트 -->
@@ -20,12 +20,14 @@
 
     <!-- 달력 -->
     <color name="on_selected">#FFFFFFFF</color>
-    <color name="cal_sun">#FFC03A2F</color>        <!-- 일요일 + 공휴일(대체공휴일 포함) -->
+    <color name="cal_sun">#FFC03A2F</color>
     <color name="cal_sat">#FF35647F</color>
     <color name="cal_weekday">#FF86958D</color>
     <color name="cal_normal">#FF17251F</color>
     <color name="cal_outside">#FFB4C1BA</color>
     <color name="cal_lunar">#FF9AA9A2</color>
+    <color name="cal_grid">#FFD3DCD7</color>
+    <color name="today_ring">#FF0B1512</color>
     <color name="mood_selected_bg">#FFD9EDE3</color>
 
     <!-- 잠금 -->
@@ -41,7 +43,9 @@
     <color name="widget_day_sat">#FF35647F</color>
     <color name="widget_day_normal">#FF1E2C26</color>
     <color name="widget_day_outside">#FFC0CBC5</color>
-    <color name="widget_today_text">#FFFFFFFF</color>
+    <color name="widget_today_text">#FF1F7A57</color>
+    <color name="widget_today_fill">#141F7A57</color>
+    <color name="widget_grid">#FFE2E9E5</color>
     <color name="widget_time_text">#FF1F7A57</color>
     <color name="widget_body_text">#FF0F1D18</color>
     <color name="widget_muted_text">#FF86958D</color>
