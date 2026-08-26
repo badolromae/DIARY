@@ -9,13 +9,13 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.widget.RemoteViews
-import androidx.core.content.ContextCompat
 import com.jooshin.diary.R
 import com.jooshin.diary.data.AppDatabase
 import com.jooshin.diary.data.countsByDay
 import com.jooshin.diary.util.DateUtil
 import com.jooshin.diary.util.KoreanHolidays
 import com.jooshin.diary.util.LunarCalendar
+import com.jooshin.diary.util.Palette
 
 /**
  * 월 달력 위젯.
@@ -33,7 +33,14 @@ class MonthWidgetProvider : BaseCalendarWidget() {
 
     override fun render(c: Context, mgr: AppWidgetManager, id: Int) {
         val anchor = WidgetState.getAnchor(c, id, defaultAnchor())
+        val p = Palette.of(c)
         val views = RemoteViews(c.packageName, R.layout.widget_month)
+        views.setInt(R.id.widget_root, "setBackgroundResource", p.widgetBgRes)
+        views.setTextColor(R.id.month_title, p.textPrimary)
+        views.setTextColor(R.id.month_sub, p.textMuted)
+        for (b in intArrayOf(R.id.btn_today, R.id.btn_prev, R.id.btn_next)) {
+            views.setInt(b, "setColorFilter", p.textSecondary)
+        }
 
         views.setTextViewText(R.id.month_title, DateUtil.formatMonthTitle(anchor))
         val today = DateUtil.today()
@@ -65,13 +72,13 @@ class MonthWidgetProvider : BaseCalendarWidget() {
             .getOverlappingSync(anchor, anchor + daysInMonth - 1)
             .countsByDay(anchor, anchor + daysInMonth - 1)
 
-        val cSun = ContextCompat.getColor(c, R.color.widget_day_sun)
-        val cSat = ContextCompat.getColor(c, R.color.widget_day_sat)
-        val cNormal = ContextCompat.getColor(c, R.color.widget_day_normal)
-        val cToday = ContextCompat.getColor(c, R.color.widget_today_text)
-        val cLunar = ContextCompat.getColor(c, R.color.widget_lunar_text)
-        val cMuted = ContextCompat.getColor(c, R.color.widget_muted_text)
-        val cAccent = ContextCompat.getColor(c, R.color.brand_accent)
+        val cSun = p.sun
+        val cSat = p.sat
+        val cNormal = p.calNormal
+        val cToday = p.accent
+        val cLunar = p.calLunar
+        val cMuted = p.textMuted
+        val cAccent = p.accent
 
         views.removeAllViews(R.id.month_rows)
         for (w in 0 until rowCount) {
@@ -146,7 +153,7 @@ class MonthWidgetProvider : BaseCalendarWidget() {
                 cell.setTextViewText(R.id.cell_day, sb)
                 cell.setInt(
                     R.id.cell_day, "setBackgroundResource",
-                    if (isToday) R.drawable.bg_widget_today_cell else 0
+                    if (isToday) p.todayCellRes else 0
                 )
                 cell.setOnClickPendingIntent(R.id.cell_day, WidgetCommon.openDate(c, ed))
 

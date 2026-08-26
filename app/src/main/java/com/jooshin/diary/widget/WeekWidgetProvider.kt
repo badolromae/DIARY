@@ -7,6 +7,7 @@ import android.net.Uri
 import android.widget.RemoteViews
 import com.jooshin.diary.R
 import com.jooshin.diary.util.DateUtil
+import com.jooshin.diary.util.Palette
 
 class WeekWidgetProvider : BaseCalendarWidget() {
 
@@ -18,7 +19,13 @@ class WeekWidgetProvider : BaseCalendarWidget() {
 
     override fun render(c: Context, mgr: AppWidgetManager, id: Int) {
         val anchor = WidgetState.getAnchor(c, id, defaultAnchor())
+        val p = Palette.of(c)
         val views = RemoteViews(c.packageName, R.layout.widget_week)
+        views.setInt(R.id.widget_root, "setBackgroundResource", p.widgetBgRes)
+        views.setTextColor(R.id.week_title, p.textPrimary)
+        for (b in intArrayOf(R.id.btn_today, R.id.btn_prev, R.id.btn_next)) {
+            views.setInt(b, "setColorFilter", p.textSecondary)
+        }
         val title = "${DateUtil.formatShortDate(anchor)} ~ ${DateUtil.formatShortDate(anchor + 6)}"
         views.setTextViewText(R.id.week_title, title)
 

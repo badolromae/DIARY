@@ -15,6 +15,7 @@ import com.jooshin.diary.data.endDay
 import com.jooshin.diary.data.isMultiDay
 import com.jooshin.diary.ui.MainActivity
 import com.jooshin.diary.util.DateUtil
+import com.jooshin.diary.util.Palette
 import java.time.LocalTime
 
 class DayWidgetService : RemoteViewsService() {
@@ -42,10 +43,12 @@ private class DayFactory(
         AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID
     )
     private var rows: List<DayRow> = emptyList()
+    private var pal: Palette = Palette.of(ctx)
 
     override fun onCreate() {}
 
     override fun onDataSetChanged() {
+        pal = Palette.of(ctx)
         val day = WidgetState.getAnchor(ctx, appWidgetId, DateUtil.today())
         val items = AppDatabase.get(ctx).diaryDao().getForDaySync(day)
 
@@ -74,9 +77,9 @@ private class DayFactory(
 
     override fun getViewAt(position: Int): RemoteViews {
         return when (val row = rows.getOrNull(position)) {
-            is DayRow.AllDayHeader -> buildAllDayHeader(ctx, row.day)
-            is DayRow.HourHeader -> buildHourHeader(ctx, row.day, row.hour, row.isNow)
-            is DayRow.Item -> buildDayItem(ctx, row.entry, row.day)
+            is DayRow.AllDayHeader -> buildAllDayHeader(ctx, pal, row.day)
+            is DayRow.HourHeader -> buildHourHeader(ctx, pal, row.day, row.hour, row.isNow)
+            is DayRow.Item -> buildDayItem(ctx, pal, row.entry, row.day)
             is DayRow.Blank -> buildBlank(ctx, row.day)
             else -> RemoteViews(ctx.packageName, R.layout.widget_blank_row)
         }
@@ -91,7 +94,7 @@ private class DayFactory(
     override fun onDestroy() {}
 }
 
-private fun buildDayItem(ctx: Context, e: DiaryEntry, day: Long): RemoteViews {
+private fun buildDayItem(ctx: Context, p: Palette, e: DiaryEntry, day: Long): RemoteViews {
     val rv = RemoteViews(ctx.packageName, R.layout.widget_day_item)
     rv.setTextViewText(
         R.id.di_time,
@@ -99,18 +102,23 @@ private fun buildDayItem(ctx: Context, e: DiaryEntry, day: Long): RemoteViews {
     )
     val titleText = e.title.ifBlank { "(제목 없음)" } +
         if (e.isMultiDay) "  (${e.dayIndexOf(day)}/${e.dayCount}일차)" else ""
+    rv.setTextColor(R.id.di_time, p.accent)
     rv.setTextViewText(R.id.di_title, titleText)
+    rv.setTextColor(R.id.di_title, p.textPrimary)
     rv.setTextViewText(R.id.di_mood, e.mood)
     rv.setViewVisibility(R.id.di_mood, if (e.mood.isBlank()) View.GONE else View.VISIBLE)
     rv.setTextViewText(R.id.di_importance_text, "${e.importance}%")
+    rv.setTextColor(R.id.di_importance_text, p.textMuted)
     rv.setProgressBar(R.id.di_importance, 100, e.importance, false)
 
     val tagText = if (e.tags.isEmpty()) "" else e.tags.joinToString(" ") { "#$it" }
     rv.setTextViewText(R.id.di_tags, tagText)
+    rv.setTextColor(R.id.di_tags, p.accent)
     rv.setViewVisibility(R.id.di_tags, if (tagText.isBlank()) View.GONE else View.VISIBLE)
 
     val content = e.content.trim()
     rv.setTextViewText(R.id.di_content, content)
+    rv.setTextColor(R.id.di_content, p.textMuted)
     rv.setViewVisibility(R.id.di_content, if (content.isBlank()) View.GONE else View.VISIBLE)
 
     rv.setOnClickFillInIntent(
