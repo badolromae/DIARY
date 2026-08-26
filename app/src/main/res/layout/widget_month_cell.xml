@@ -1,52 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/cell_root"
+<!--
+  월 달력의 한 칸. 위젯(RemoteViews)에서는 기본 View 태그를 쓸 수 없으므로
+  날짜·음력·공휴일을 TextView 하나에 색과 크기를 다르게 넣어 표시한다.
+-->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cell_day"
     android:layout_width="0dp"
     android:layout_height="match_parent"
     android:layout_weight="1"
-    android:orientation="vertical"
+    android:layout_margin="1dp"
     android:gravity="top|center_horizontal"
-    android:paddingTop="2dp"
+    android:paddingTop="3dp"
     android:paddingStart="1dp"
-    android:paddingEnd="1dp">
-
-    <TextView
-        android:id="@+id/cell_day"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:gravity="center"
-        android:text="1"
-        android:textColor="@color/widget_day_normal"
-        android:textSize="13sp" />
-
-    <View
-        android:id="@+id/cell_dot"
-        android:layout_width="14dp"
-        android:layout_height="3dp"
-        android:layout_marginTop="1dp"
-        android:background="@drawable/dot_entry" />
-
-    <TextView
-        android:id="@+id/cell_lunar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:maxLines="1"
-        android:text="음1.1"
-        android:textColor="@color/widget_lunar_text"
-        android:textSize="8sp" />
-
-    <TextView
-        android:id="@+id/cell_note"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:maxLines="1"
-        android:text=""
-        android:textColor="@color/widget_day_sun"
-        android:textSize="8sp"
-        android:visibility="gone" />
-</LinearLayout>
+    android:paddingEnd="1dp"
+    android:lineSpacingExtra="-2dp"
+    android:textSize="15sp"
+    android:textColor="@color/widget_day_normal" />

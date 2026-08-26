@@ -4,14 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/widget_bg"
-    android:padding="10dp">
+    android:padding="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:paddingBottom="6dp">
+        android:baselineAligned="false"
+        android:paddingStart="4dp"
+        android:paddingBottom="4dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -82,13 +84,7 @@
         <TextView style="@style/WidgetWeekday" android:text="토" android:textColor="@color/widget_day_sat" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="2dp"
-        android:background="@color/widget_divider" />
-
-    <!-- 6주 x 7일 셀을 코드에서 채운다 (터치가 확실히 동작하도록 정적 그리드 사용) -->
+    <!-- 이번 달 날짜 칸을 코드에서 채운다 (칸마다 직접 터치 동작) -->
     <LinearLayout
         android:id="@+id/month_rows"
         android:layout_width="match_parent"
