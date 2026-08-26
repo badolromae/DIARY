@@ -24,8 +24,14 @@ object Prefs {
     private const val K_DAILY_M = "daily_minute"
     private const val K_STYLE = "notify_style"
     private const val K_FIRST_RUN = "first_run_done"
+    private const val K_THEME = "app_theme"
 
     private fun p(c: Context) = c.getSharedPreferences(FILE, Context.MODE_PRIVATE)
+
+    // ---- 디자인(팔레트) ----
+    fun themeKey(c: Context): String = p(c).getString(K_THEME, AppTheme.GREEN.key) ?: AppTheme.GREEN.key
+    fun appTheme(c: Context): AppTheme = AppTheme.of(themeKey(c))
+    fun setAppTheme(c: Context, t: AppTheme) = p(c).edit().putString(K_THEME, t.key).apply()
 
     // ---- 잠금 ----
     fun isLockEnabled(c: Context) = p(c).getBoolean(K_LOCK, false)
