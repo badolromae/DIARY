@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand">#FF060D0A</color>
+    <color name="brand_accent">#FF3FA97D</color>
+    <color name="brand_on_muted">#FF8FA79B</color>
+    <color name="ink">#FF000000</color>
+    <color name="ink_soft">#FF1A241F</color>
+
+    <color name="app_bg">#FF070C0A</color>
+    <color name="surface">#FF101714</color>
+    <color name="card_stroke">#FF1E2A24</color>
+    <color name="text_primary">#FFE4EDE8</color>
+    <color name="text_secondary">#FFA6B5AD</color>
+    <color name="text_muted">#FF7A8A82</color>
+    <color name="divider">#FF1E2A24</color>
+
+    <color name="on_selected">#FF061009</color>
+    <color name="cal_sun">#FFE58379</color>
+    <color name="cal_sat">#FF7FA8C4</color>
+    <color name="cal_weekday">#FF7A8A82</color>
+    <color name="cal_normal">#FFDCE6E1</color>
+    <color name="cal_outside">#FF44534C</color>
+    <color name="cal_lunar">#FF6E7E76</color>
+    <color name="mood_selected_bg">#FF17372A</color>
+
+    <color name="lock_error">#FFFF8A80</color>
+
+    <color name="widget_surface">#FF101714</color>
+    <color name="widget_section">#FF17201C</color>
+    <color name="widget_ripple">#33FFFFFF</color>
+    <color name="widget_header_text">#FFE4EDE8</color>
+    <color name="widget_header_muted">#FF93A29A</color>
+    <color name="widget_day_sun">#FFE58379</color>
+    <color name="widget_day_sat">#FF7FA8C4</color>
+    <color name="widget_day_normal">#FFDCE6E1</color>
+    <color name="widget_day_outside">#FF505F58</color>
+    <color name="widget_today_text">#FF061009</color>
+    <color name="widget_time_text">#FF3FA97D</color>
+    <color name="widget_body_text">#FFE4EDE8</color>
+    <color name="widget_muted_text">#FF8A9A92</color>
+    <color name="widget_divider">#FF232E29</color>
+    <color name="widget_lunar_text">#FF74847C</color>
+</resources>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cell_root"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:gravity="top|center_horizontal"
+    android:paddingTop="2dp"
+    android:paddingStart="1dp"
+    android:paddingEnd="1dp">
+
+    <TextView
+        android:id="@+id/cell_day"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:gravity="center"
+        android:text="1"
+        android:textColor="@color/widget_day_normal"
+        android:textSize="13sp" />
+
+    <View
+        android:id="@+id/cell_dot"
+        android:layout_width="14dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="1dp"
+        android:background="@drawable/dot_entry" />
+
+    <TextView
+        android:id="@+id/cell_lunar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="음1.1"
+        android:textColor="@color/widget_lunar_text"
+        android:textSize="8sp" />
+
+    <TextView
+        android:id="@+id/cell_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text=""
+        android:textColor="@color/widget_day_sun"
+        android:textSize="8sp"
+        android:visibility="gone" />
+</LinearLayout>

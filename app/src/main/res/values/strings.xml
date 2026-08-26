@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">다이어리</string>
+    <string name="widget_month_desc">월 달력 — 기록이 있는 날을 점으로 표시</string>
+    <string name="widget_week_desc">주 달력 — 요일별 일정 목록</string>
+    <string name="widget_day_desc">일 달력 — 시간순 일정</string>
+</resources>

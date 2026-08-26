@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/widget_bg"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="6dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/month_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2026년 8월"
+                android:textColor="@color/widget_header_text"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/month_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text=""
+                android:textColor="@color/widget_muted_text"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btn_today"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="@drawable/widget_btn_bg"
+            android:contentDescription="오늘"
+            android:src="@drawable/ic_today"
+            android:tint="@color/widget_header_muted" />
+
+        <ImageButton
+            android:id="@+id/btn_prev"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="@drawable/widget_btn_bg"
+            android:contentDescription="이전 달"
+            android:src="@drawable/ic_chevron_left"
+            android:tint="@color/widget_header_muted" />
+
+        <ImageButton
+            android:id="@+id/btn_next"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="@drawable/widget_btn_bg"
+            android:contentDescription="다음 달"
+            android:src="@drawable/ic_chevron_right"
+            android:tint="@color/widget_header_muted" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="2dp">
+
+        <TextView style="@style/WidgetWeekday" android:text="일" android:textColor="@color/widget_day_sun" />
+        <TextView style="@style/WidgetWeekday" android:text="월" />
+        <TextView style="@style/WidgetWeekday" android:text="화" />
+        <TextView style="@style/WidgetWeekday" android:text="수" />
+        <TextView style="@style/WidgetWeekday" android:text="목" />
+        <TextView style="@style/WidgetWeekday" android:text="금" />
+        <TextView style="@style/WidgetWeekday" android:text="토" android:textColor="@color/widget_day_sat" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/widget_divider" />
+
+    <!-- 6주 x 7일 셀을 코드에서 채운다 (터치가 확실히 동작하도록 정적 그리드 사용) -->
+    <LinearLayout
+        android:id="@+id/month_rows"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical" />
+</LinearLayout>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/brand"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="24dp">
+
+    <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="0.8" />
+
+    <ImageView
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:contentDescription="잠금"
+        android:src="@drawable/ic_lock"
+        app:tint="@color/white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="다이어리 잠금"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="PIN을 입력하세요"
+        android:textColor="@color/brand_on_muted"
+        android:textSize="13sp" />
+
+    <LinearLayout
+        android:id="@+id/dotsContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/tvLockError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="PIN이 올바르지 않습니다"
+        android:textColor="@color/lock_error"
+        android:textSize="13sp"
+        android:visibility="invisible" />
+
+    <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="16dp">
+
+        <LinearLayout style="@style/KeypadRow">
+            <com.google.android.material.button.MaterialButton android:id="@+id/key1" style="@style/KeypadKey" android:text="1" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/key2" style="@style/KeypadKey" android:text="2" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/key3" style="@style/KeypadKey" android:text="3" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/KeypadRow">
+            <com.google.android.material.button.MaterialButton android:id="@+id/key4" style="@style/KeypadKey" android:text="4" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/key5" style="@style/KeypadKey" android:text="5" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/key6" style="@style/KeypadKey" android:text="6" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/KeypadRow">
+            <com.google.android.material.button.MaterialButton android:id="@+id/key7" style="@style/KeypadKey" android:text="7" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/key8" style="@style/KeypadKey" android:text="8" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/key9" style="@style/KeypadKey" android:text="9" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/KeypadRow">
+            <ImageButton
+                android:id="@+id/btnBiometric"
+                style="@style/KeypadIcon"
+                android:contentDescription="생체인식"
+                android:src="@drawable/ic_fingerprint"
+                app:tint="@color/white" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/key0" style="@style/KeypadKey" android:text="0" />
+            <ImageButton
+                android:id="@+id/keyDel"
+                style="@style/KeypadIcon"
+                android:contentDescription="지우기"
+                android:src="@drawable/ic_backspace"
+                app:tint="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/widget_bg"
+    android:padding="12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="6dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/day_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="오늘"
+                android:textColor="@color/widget_header_text"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/day_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text=""
+                android:textColor="@color/widget_lunar_text"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <ImageButton android:id="@+id/btn_add" android:layout_width="36dp" android:layout_height="36dp"
+            android:background="@drawable/widget_btn_bg" android:contentDescription="추가"
+            android:src="@drawable/ic_add" android:tint="@color/brand_accent" />
+        <ImageButton android:id="@+id/btn_today" android:layout_width="36dp" android:layout_height="36dp"
+            android:background="@drawable/widget_btn_bg" android:contentDescription="오늘"
+            android:src="@drawable/ic_today" android:tint="@color/widget_header_muted" />
+        <ImageButton android:id="@+id/btn_prev" android:layout_width="36dp" android:layout_height="36dp"
+            android:background="@drawable/widget_btn_bg" android:contentDescription="이전 날"
+            android:src="@drawable/ic_chevron_left" android:tint="@color/widget_header_muted" />
+        <ImageButton android:id="@+id/btn_next" android:layout_width="36dp" android:layout_height="36dp"
+            android:background="@drawable/widget_btn_bg" android:contentDescription="다음 날"
+            android:src="@drawable/ic_chevron_right" android:tint="@color/widget_header_muted" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@+id/day_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/widget_divider"
+            android:dividerHeight="1dp"
+            android:listSelector="@android:color/transparent" />
+
+        <TextView
+            android:id="@+id/day_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="이 날의 기록이 없습니다.\n+ 버튼으로 추가하세요."
+            android:textColor="@color/widget_muted_text"
+            android:textSize="14sp" />
+    </FrameLayout>
+</LinearLayout>
