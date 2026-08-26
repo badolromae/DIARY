@@ -21,6 +21,7 @@ class LockActivity : AppCompatActivity() {
     private val dots = mutableListOf<View>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(Prefs.appTheme(this).styleRes)
         super.onCreate(savedInstanceState)
         binding = ActivityLockBinding.inflate(layoutInflater)
         setContentView(binding.root)

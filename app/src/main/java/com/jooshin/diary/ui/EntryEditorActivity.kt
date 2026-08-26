@@ -28,6 +28,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.util.Calendar
+import com.jooshin.diary.util.Prefs
 
 class EntryEditorActivity : AppCompatActivity() {
 
@@ -58,6 +59,7 @@ class EntryEditorActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(Prefs.appTheme(this).styleRes)
         super.onCreate(savedInstanceState)
         binding = ActivityEditorBinding.inflate(layoutInflater)
         setContentView(binding.root)

@@ -10,6 +10,7 @@ class PinSetupActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPinBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(Prefs.appTheme(this).styleRes)
         super.onCreate(savedInstanceState)
         binding = ActivityPinBinding.inflate(layoutInflater)
         setContentView(binding.root)

@@ -16,7 +16,9 @@ import com.jooshin.diary.R
 import com.jooshin.diary.databinding.ActivitySettingsBinding
 import com.jooshin.diary.notify.ReminderScheduler
 import com.jooshin.diary.util.DateUtil
+import com.jooshin.diary.util.AppTheme
 import com.jooshin.diary.util.Prefs
+import com.jooshin.diary.widget.WidgetUpdater
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -59,12 +61,34 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(Prefs.appTheme(this).styleRes)
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbarSettings)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbarSettings.setNavigationOnClickListener { finish() }
+
+        // 디자인(팔레트)
+        when (Prefs.appTheme(this)) {
+            AppTheme.BLUE -> binding.rbThemeBlue.isChecked = true
+            AppTheme.PINK -> binding.rbThemePink.isChecked = true
+            AppTheme.MONO -> binding.rbThemeMono.isChecked = true
+            else -> binding.rbThemeGreen.isChecked = true
+        }
+        binding.radioTheme.setOnCheckedChangeListener { _, id ->
+            val t = when (id) {
+                R.id.rbThemeBlue -> AppTheme.BLUE
+                R.id.rbThemePink -> AppTheme.PINK
+                R.id.rbThemeMono -> AppTheme.MONO
+                else -> AppTheme.GREEN
+            }
+            if (t != Prefs.appTheme(this)) {
+                Prefs.setAppTheme(this, t)
+                WidgetUpdater.refreshAll(this)   // 위젯도 같이 바꾼다
+                recreate()                        // 설정 화면 즉시 반영
+            }
+        }
 
         // 알림
         binding.switchDaily.isChecked = Prefs.isDailyEnabled(this)

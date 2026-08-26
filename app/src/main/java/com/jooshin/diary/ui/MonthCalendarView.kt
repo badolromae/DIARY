@@ -12,6 +12,7 @@ import com.jooshin.diary.R
 import com.jooshin.diary.util.DateUtil
 import com.jooshin.diary.util.KoreanHolidays
 import com.jooshin.diary.util.LunarCalendar
+import com.jooshin.diary.util.Palette
 
 /**
  * 앱 메인 화면의 월 달력(6주 x 7일).
@@ -34,6 +35,7 @@ class MonthCalendarView @JvmOverloads constructor(
     private var firstOfMonth = DateUtil.firstOfMonthOf(DateUtil.today())
     private var selected = DateUtil.today()
     private var counts: Map<Long, Int> = emptyMap()
+    private val palette by lazy { Palette.of(context) }
 
     init {
         orientation = VERTICAL
@@ -57,14 +59,11 @@ class MonthCalendarView @JvmOverloads constructor(
                 textSize = 12f
                 setPadding(0, dp(6), 0, dp(6))
                 setTextColor(
-                    ContextCompat.getColor(
-                        context,
-                        when (i) {
-                            0 -> R.color.cal_sun
-                            6 -> R.color.cal_sat
-                            else -> R.color.cal_weekday
-                        }
-                    )
+                    when (i) {
+                        0 -> palette.sun
+                        6 -> palette.sat
+                        else -> palette.textMuted
+                    }
                 )
                 layoutParams = LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f)
             }
@@ -111,7 +110,7 @@ class MonthCalendarView @JvmOverloads constructor(
                 textSize = 10f
                 maxLines = 1
                 includeFontPadding = false
-                setTextColor(ContextCompat.getColor(context, R.color.cal_lunar))
+                setTextColor(palette.calLunar)
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
@@ -180,13 +179,13 @@ class MonthCalendarView @JvmOverloads constructor(
     private fun renderStates() {
         val monthVal = DateUtil.toDate(firstOfMonth).monthValue
         val today = DateUtil.today()
-        val cOutside = ContextCompat.getColor(context, R.color.cal_outside)
-        val cSun = ContextCompat.getColor(context, R.color.cal_sun)
-        val cSat = ContextCompat.getColor(context, R.color.cal_sat)
-        val cNormal = ContextCompat.getColor(context, R.color.cal_normal)
-        val cSel = ContextCompat.getColor(context, R.color.on_selected)
-        val cLunar = ContextCompat.getColor(context, R.color.cal_lunar)
-        val cMuted = ContextCompat.getColor(context, R.color.text_muted)
+        val cOutside = palette.calOutside
+        val cSun = palette.sun
+        val cSat = palette.sat
+        val cNormal = palette.calNormal
+        val cSel = palette.onSelected
+        val cLunar = palette.calLunar
+        val cMuted = palette.textMuted
 
         for (i in 0..41) {
             val ed = epochDays[i]

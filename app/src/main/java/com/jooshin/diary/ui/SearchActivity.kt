@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jooshin.diary.data.AppDatabase
 import com.jooshin.diary.databinding.ActivitySearchBinding
 import kotlinx.coroutines.launch
+import com.jooshin.diary.util.Prefs
 
 class SearchActivity : AppCompatActivity() {
 
@@ -22,6 +23,7 @@ class SearchActivity : AppCompatActivity() {
     private var lastQuery: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(Prefs.appTheme(this).styleRes)
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)

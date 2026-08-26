@@ -18,6 +18,7 @@ import com.jooshin.diary.util.AppLock
 import com.jooshin.diary.util.DateUtil
 import com.jooshin.diary.util.KoreanHolidays
 import com.jooshin.diary.util.LunarCalendar
+import com.jooshin.diary.util.Palette
 import com.jooshin.diary.util.Prefs
 import kotlinx.coroutines.launch
 
@@ -27,6 +28,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: EntryAdapter
     private val dao by lazy { AppDatabase.get(this).diaryDao() }
 
+    private val palette by lazy { Palette.of(this) }
+    private var appliedTheme: String = ""
+
     private var currentMonthFirst = DateUtil.firstOfMonthOf(DateUtil.today())
     private var selectedDay = DateUtil.today()
 
@@ -34,6 +38,8 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(Prefs.appTheme(this).styleRes)
+        appliedTheme = Prefs.themeKey(this)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -71,6 +77,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        // 설정에서 디자인을 바꿨으면 화면을 다시 만들어 즉시 반영
+        if (appliedTheme != Prefs.themeKey(this)) {
+            recreate()
+            return
+        }
         if (AppLock.isLockRequired(this)) {
             startActivity(Intent(this, LockActivity::class.java))
             return
@@ -107,14 +118,11 @@ class MainActivity : AppCompatActivity() {
         val info = KoreanHolidays.info(selectedDay)
         val red = DateUtil.dowIndex(selectedDay) == 0 || info.isHoliday
         binding.tvSelectedDate.setTextColor(
-            ContextCompat.getColor(
-                this,
-                when {
-                    red -> R.color.cal_sun
-                    DateUtil.dowIndex(selectedDay) == 6 -> R.color.cal_sat
-                    else -> R.color.text_primary
-                }
-            )
+            when {
+                red -> palette.sun
+                DateUtil.dowIndex(selectedDay) == 6 -> palette.sat
+                else -> palette.textPrimary
+            }
         )
         val sub = listOf(LunarCalendar.longLabel(selectedDay), info.full)
             .filter { it.isNotEmpty() }.joinToString("  ·  ")
@@ -122,7 +130,7 @@ class MainActivity : AppCompatActivity() {
         binding.tvSelectedInfo.visibility =
             if (sub.isEmpty()) android.view.View.GONE else android.view.View.VISIBLE
         binding.tvSelectedInfo.setTextColor(
-            ContextCompat.getColor(this, if (info.isHoliday) R.color.cal_sun else R.color.text_muted)
+            if (info.isHoliday) palette.sun else palette.textMuted
         )
 
         adapter.refDay = selectedDay
