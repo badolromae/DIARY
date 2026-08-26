@@ -1,28 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <style name="Theme.MyDiary" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/brand_accent</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <item name="colorPrimaryContainer">@color/brand_accent</item>
-        <item name="colorOnPrimaryContainer">@color/white</item>
-        <item name="colorSecondary">@color/brand_accent</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <item name="colorSecondaryContainer">@color/mood_selected_bg</item>
-        <item name="colorOnSecondaryContainer">@color/brand</item>
-        <item name="colorTertiary">@color/ink</item>
-        <item name="colorOnTertiary">@color/white</item>
-        <item name="colorSurface">@color/surface</item>
-        <item name="colorOnSurface">@color/text_primary</item>
-        <item name="colorSurfaceVariant">@color/app_bg</item>
-        <item name="colorOnSurfaceVariant">@color/text_secondary</item>
-        <item name="colorOutline">@color/card_stroke</item>
-        <item name="android:colorBackground">@color/app_bg</item>
-        <item name="colorOnBackground">@color/text_primary</item>
-        <item name="colorControlActivated">@color/brand_accent</item>
+    <style name="Theme.EnJJoy.Base" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorError">@color/lock_error</item>
-        <item name="android:statusBarColor">@color/brand</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="android:navigationBarColor">@color/app_bg</item>
     </style>
+
+    <!-- 딥그린 (원버전) -->
+    <style name="Theme.EnJJoy.Green" parent="Theme.EnJJoy.Base">
+        <item name="colorPrimary">@color/pg_accent</item>
+        <item name="colorOnPrimary">@color/pg_on_selected</item>
+        <item name="colorPrimaryContainer">@color/pg_accent</item>
+        <item name="colorOnPrimaryContainer">@color/pg_on_selected</item>
+        <item name="colorSecondary">@color/pg_accent</item>
+        <item name="colorOnSecondary">@color/pg_on_selected</item>
+        <item name="colorSecondaryContainer">@color/pg_mood_bg</item>
+        <item name="colorOnSecondaryContainer">@color/pg_toolbar</item>
+        <item name="colorSurface">@color/pg_surface</item>
+        <item name="colorOnSurface">@color/pg_text_primary</item>
+        <item name="colorSurfaceVariant">@color/pg_section</item>
+        <item name="colorOnSurfaceVariant">@color/pg_text_secondary</item>
+        <item name="colorOutline">@color/pg_stroke</item>
+        <item name="colorOutlineVariant">@color/pg_divider</item>
+        <item name="android:colorBackground">@color/pg_bg</item>
+        <item name="colorOnBackground">@color/pg_text_primary</item>
+        <item name="colorControlActivated">@color/pg_accent</item>
+        <item name="android:statusBarColor">@color/pg_toolbar</item>
+        <item name="android:navigationBarColor">@color/pg_bg</item>
+        <item name="appToolbar">@color/pg_toolbar</item>
+        <item name="appTextMuted">@color/pg_text_muted</item>
+        <item name="appMoodBg">@color/pg_mood_bg</item>
+        <item name="appCalGrid">@color/pg_cal_grid</item>
+        <item name="appTodayRing">@color/pg_today_ring</item>
+        <item name="appOnBrandMuted">@color/pg_cal_outside</item>
+    </style>
+
+    <!-- 스카이블루 -->
+    <style name="Theme.EnJJoy.Blue" parent="Theme.EnJJoy.Base">
+        <item name="colorPrimary">@color/pb_accent</item>
+        <item name="colorOnPrimary">@color/pb_on_selected</item>
+        <item name="colorPrimaryContainer">@color/pb_accent</item>
+        <item name="colorOnPrimaryContainer">@color/pb_on_selected</item>
+        <item name="colorSecondary">@color/pb_accent</item>
+        <item name="colorOnSecondary">@color/pb_on_selected</item>
+        <item name="colorSecondaryContainer">@color/pb_mood_bg</item>
+        <item name="colorOnSecondaryContainer">@color/pb_toolbar</item>
+        <item name="colorSurface">@color/pb_surface</item>
+        <item name="colorOnSurface">@color/pb_text_primary</item>
+        <item name="colorSurfaceVariant">@color/pb_section</item>
+        <item name="colorOnSurfaceVariant">@color/pb_text_secondary</item>
+        <item name="colorOutline">@color/pb_stroke</item>
+        <item name="colorOutlineVariant">@color/pb_divider</item>
+        <item name="android:colorBackground">@color/pb_bg</item>
+        <item name="colorOnBackground">@color/pb_text_primary</item>
+        <item name="colorControlActivated">@color/pb_accent</item>
+        <item name="android:statusBarColor">@color/pb_toolbar</item>
+        <item name="android:navigationBarColor">@color/pb_bg</item>
+        <item name="appToolbar">@color/pb_toolbar</item>
+        <item name="appTextMuted">@color/pb_text_muted</item>
+        <item name="appMoodBg">@color/pb_mood_bg</item>
+        <item name="appCalGrid">@color/pb_cal_grid</item>
+        <item name="appTodayRing">@color/pb_today_ring</item>
+        <item name="appOnBrandMuted">@color/pb_cal_outside</item>
+    </style>
+
+    <!-- 연핑크 -->
+    <style name="Theme.EnJJoy.Pink" parent="Theme.EnJJoy.Base">
+        <item name="colorPrimary">@color/pp_accent</item>
+        <item name="colorOnPrimary">@color/pp_on_selected</item>
+        <item name="colorPrimaryContainer">@color/pp_accent</item>
+        <item name="colorOnPrimaryContainer">@color/pp_on_selected</item>
+        <item name="colorSecondary">@color/pp_accent</item>
+        <item name="colorOnSecondary">@color/pp_on_selected</item>
+        <item name="colorSecondaryContainer">@color/pp_mood_bg</item>
+        <item name="colorOnSecondaryContainer">@color/pp_toolbar</item>
+        <item name="colorSurface">@color/pp_surface</item>
+        <item name="colorOnSurface">@color/pp_text_primary</item>
+        <item name="colorSurfaceVariant">@color/pp_section</item>
+        <item name="colorOnSurfaceVariant">@color/pp_text_secondary</item>
+        <item name="colorOutline">@color/pp_stroke</item>
+        <item name="colorOutlineVariant">@color/pp_divider</item>
+        <item name="android:colorBackground">@color/pp_bg</item>
+        <item name="colorOnBackground">@color/pp_text_primary</item>
+        <item name="colorControlActivated">@color/pp_accent</item>
+        <item name="android:statusBarColor">@color/pp_toolbar</item>
+        <item name="android:navigationBarColor">@color/pp_bg</item>
+        <item name="appToolbar">@color/pp_toolbar</item>
+        <item name="appTextMuted">@color/pp_text_muted</item>
+        <item name="appMoodBg">@color/pp_mood_bg</item>
+        <item name="appCalGrid">@color/pp_cal_grid</item>
+        <item name="appTodayRing">@color/pp_today_ring</item>
+        <item name="appOnBrandMuted">@color/pp_cal_outside</item>
+    </style>
+
+    <!-- 블랙+그레이 -->
+    <style name="Theme.EnJJoy.Mono" parent="Theme.EnJJoy.Base">
+        <item name="colorPrimary">@color/pm_accent</item>
+        <item name="colorOnPrimary">@color/pm_on_selected</item>
+        <item name="colorPrimaryContainer">@color/pm_accent</item>
+        <item name="colorOnPrimaryContainer">@color/pm_on_selected</item>
+        <item name="colorSecondary">@color/pm_accent</item>
+        <item name="colorOnSecondary">@color/pm_on_selected</item>
+        <item name="colorSecondaryContainer">@color/pm_mood_bg</item>
+        <item name="colorOnSecondaryContainer">@color/pm_toolbar</item>
+        <item name="colorSurface">@color/pm_surface</item>
+        <item name="colorOnSurface">@color/pm_text_primary</item>
+        <item name="colorSurfaceVariant">@color/pm_section</item>
+        <item name="colorOnSurfaceVariant">@color/pm_text_secondary</item>
+        <item name="colorOutline">@color/pm_stroke</item>
+        <item name="colorOutlineVariant">@color/pm_divider</item>
+        <item name="android:colorBackground">@color/pm_bg</item>
+        <item name="colorOnBackground">@color/pm_text_primary</item>
+        <item name="colorControlActivated">@color/pm_accent</item>
+        <item name="android:statusBarColor">@color/pm_toolbar</item>
+        <item name="android:navigationBarColor">@color/pm_bg</item>
+        <item name="appToolbar">@color/pm_toolbar</item>
+        <item name="appTextMuted">@color/pm_text_muted</item>
+        <item name="appMoodBg">@color/pm_mood_bg</item>
+        <item name="appCalGrid">@color/pm_cal_grid</item>
+        <item name="appTodayRing">@color/pm_today_ring</item>
+        <item name="appOnBrandMuted">@color/pm_cal_outside</item>
+    </style>
+
+    <!-- 기본 테마 (매니페스트용) = 딥그린 -->
+    <style name="Theme.MyDiary" parent="Theme.EnJJoy.Green" />
 </resources>

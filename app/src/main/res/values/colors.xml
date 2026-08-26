@@ -3,10 +3,10 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- 브랜드: 딥 그린 + 블랙 포인트 -->
-    <color name="brand">#FF0B2018</color>
-    <color name="brand_accent">#FF1F7A57</color>
+    <color name="brand">#FF0B2018</color>          <!-- 상단바/상태바 (블랙에 가까운 딥그린) -->
+    <color name="brand_accent">#FF1F7A57</color>   <!-- 포인트 딥그린 -->
     <color name="brand_on_muted">#FFA9C4B7</color>
-    <color name="ink">#FF0B1512</color>
+    <color name="ink">#FF0B1512</color>            <!-- 블랙 포인트 -->
     <color name="ink_soft">#FF23302B</color>
 
     <!-- 표면/배경/텍스트 -->
@@ -20,7 +20,7 @@
 
     <!-- 달력 -->
     <color name="on_selected">#FFFFFFFF</color>
-    <color name="cal_sun">#FFC03A2F</color>
+    <color name="cal_sun">#FFC03A2F</color>        <!-- 일요일 + 공휴일(대체공휴일 포함) -->
     <color name="cal_sat">#FF35647F</color>
     <color name="cal_weekday">#FF86958D</color>
     <color name="cal_normal">#FF17251F</color>
@@ -51,4 +51,87 @@
     <color name="widget_muted_text">#FF86958D</color>
     <color name="widget_divider">#FFE6ECE9</color>
     <color name="widget_lunar_text">#FF9AA9A2</color>
+    <color name="widget_importance_track">#FFE6ECE9</color>
+    <color name="widget_importance_fill">#FF8A9299</color>
+
+    <!-- 팔레트 4종 (테마 전환용) -->
+    <!-- 딥그린 -->
+    <color name="pg_toolbar">#FF0B2018</color>
+    <color name="pg_accent">#FF1F7A57</color>
+    <color name="pg_accent_soft">#1F1F7A57</color>
+    <color name="pg_bg">#FFF2F5F3</color>
+    <color name="pg_surface">#FFFFFFFF</color>
+    <color name="pg_section">#FFEFF4F1</color>
+    <color name="pg_stroke">#FFDFE7E2</color>
+    <color name="pg_text_primary">#FF0F1D18</color>
+    <color name="pg_text_secondary">#FF4A5C54</color>
+    <color name="pg_text_muted">#FF86958D</color>
+    <color name="pg_divider">#FFE3EAE6</color>
+    <color name="pg_on_selected">#FFFFFFFF</color>
+    <color name="pg_cal_normal">#FF17251F</color>
+    <color name="pg_cal_outside">#FFB4C1BA</color>
+    <color name="pg_cal_lunar">#FF9AA9A2</color>
+    <color name="pg_cal_grid">#FFD3DCD7</color>
+    <color name="pg_today_ring">#FF0B1512</color>
+    <color name="pg_mood_bg">#FFD9EDE3</color>
+
+    <!-- 스카이블루 -->
+    <color name="pb_toolbar">#FF0C2233</color>
+    <color name="pb_accent">#FF1E77B4</color>
+    <color name="pb_accent_soft">#1F1E77B4</color>
+    <color name="pb_bg">#FFF1F5F8</color>
+    <color name="pb_surface">#FFFFFFFF</color>
+    <color name="pb_section">#FFEDF3F8</color>
+    <color name="pb_stroke">#FFDCE5EC</color>
+    <color name="pb_text_primary">#FF0F1D28</color>
+    <color name="pb_text_secondary">#FF4A5A66</color>
+    <color name="pb_text_muted">#FF86949E</color>
+    <color name="pb_divider">#FFE2EAF0</color>
+    <color name="pb_on_selected">#FFFFFFFF</color>
+    <color name="pb_cal_normal">#FF172530</color>
+    <color name="pb_cal_outside">#FFB4C0CA</color>
+    <color name="pb_cal_lunar">#FF9AA6B0</color>
+    <color name="pb_cal_grid">#FFD3DBE2</color>
+    <color name="pb_today_ring">#FF0B1319</color>
+    <color name="pb_mood_bg">#FFD9E9F5</color>
+
+    <!-- 연핑크 -->
+    <color name="pp_toolbar">#FF3A1520</color>
+    <color name="pp_accent">#FFC4577E</color>
+    <color name="pp_accent_soft">#1FC4577E</color>
+    <color name="pp_bg">#FFFAF3F5</color>
+    <color name="pp_surface">#FFFFFFFF</color>
+    <color name="pp_section">#FFFBF0F3</color>
+    <color name="pp_stroke">#FFEEDDE3</color>
+    <color name="pp_text_primary">#FF2A121A</color>
+    <color name="pp_text_secondary">#FF635057</color>
+    <color name="pp_text_muted">#FF9E8A91</color>
+    <color name="pp_divider">#FFF0E2E7</color>
+    <color name="pp_on_selected">#FFFFFFFF</color>
+    <color name="pp_cal_normal">#FF2C1B22</color>
+    <color name="pp_cal_outside">#FFCDBAC1</color>
+    <color name="pp_cal_lunar">#FFAF9BA3</color>
+    <color name="pp_cal_grid">#FFE7D6DC</color>
+    <color name="pp_today_ring">#FF2A121A</color>
+    <color name="pp_mood_bg">#FFF7DDE6</color>
+
+    <!-- 블랙+그레이 -->
+    <color name="pm_toolbar">#FF14161A</color>
+    <color name="pm_accent">#FF4A5560</color>
+    <color name="pm_accent_soft">#1F4A5560</color>
+    <color name="pm_bg">#FFF4F5F6</color>
+    <color name="pm_surface">#FFFFFFFF</color>
+    <color name="pm_section">#FFF0F1F3</color>
+    <color name="pm_stroke">#FFE1E3E6</color>
+    <color name="pm_text_primary">#FF14161A</color>
+    <color name="pm_text_secondary">#FF4E545C</color>
+    <color name="pm_text_muted">#FF8A8F97</color>
+    <color name="pm_divider">#FFE4E6E9</color>
+    <color name="pm_on_selected">#FFFFFFFF</color>
+    <color name="pm_cal_normal">#FF1B1E23</color>
+    <color name="pm_cal_outside">#FFB8BCC2</color>
+    <color name="pm_cal_lunar">#FF9BA0A7</color>
+    <color name="pm_cal_grid">#FFD6D9DD</color>
+    <color name="pm_today_ring">#FF14161A</color>
+    <color name="pm_mood_bg">#FFE4E6EA</color>
 </resources>

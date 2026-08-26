@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 팔레트(테마)마다 값이 달라지는 색. Material 기본 속성으로 표현 안 되는 것만 정의. -->
+    <attr name="appToolbar" format="color" />
+    <attr name="appTextMuted" format="color" />
+    <attr name="appMoodBg" format="color" />
+    <attr name="appCalGrid" format="color" />
+    <attr name="appTodayRing" format="color" />
+    <attr name="appOnBrandMuted" format="color" />
+</resources>
