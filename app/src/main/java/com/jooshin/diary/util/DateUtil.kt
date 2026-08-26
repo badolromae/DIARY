@@ -72,6 +72,22 @@ object DateUtil {
     fun weekdayShort(epochDay: Long): String =
         toDate(epochDay).dayOfWeek.getDisplayName(TextStyle.SHORT, KR)
 
+    /** "월요일" 처럼 요일 전체 이름 */
+    fun weekdayFull(epochDay: Long): String =
+        toDate(epochDay).dayOfWeek.getDisplayName(TextStyle.FULL, KR)
+
+    /** "8/24 월요일" */
+    fun formatDateWeekdayFull(epochDay: Long): String =
+        "${formatShortDate(epochDay)} ${weekdayFull(epochDay)}"
+
+    /** 0~23 시를 "오전 9시" / "오후 3시" 로 */
+    fun formatHour(hour: Int): String = when {
+        hour == 0 -> "오전 12시"
+        hour < 12 -> "오전 ${hour}시"
+        hour == 12 -> "오후 12시"
+        else -> "오후 ${hour - 12}시"
+    }
+
     fun formatTime(timeMinutes: Int): String {
         if (timeMinutes < 0) return "종일"
         val t = LocalTime.of(timeMinutes / 60, timeMinutes % 60)

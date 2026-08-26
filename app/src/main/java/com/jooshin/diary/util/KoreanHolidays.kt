@@ -24,6 +24,23 @@ object KoreanHolidays {
         /** 달력 칸에 한 줄로 넣을 대표 이름 */
         val short: String get() = holidays.firstOrNull() ?: others.firstOrNull() ?: ""
 
+        /**
+         * 좁은 달력 칸용으로 더 짧게 줄인 이름.
+         * "대체공휴일(광복절)" -> "대체휴일", "설날 연휴" -> "설연휴" 등
+         */
+        val compact: String
+            get() {
+                val n = short
+                return when {
+                    n.isEmpty() -> ""
+                    n.startsWith("대체공휴일") -> "대체휴일"
+                    n == "설날 연휴" -> "설연휴"
+                    n == "추석 연휴" -> "추석연휴"
+                    n.startsWith("부처님") -> "석가탄신"
+                    else -> n
+                }
+            }
+
         /** 상세 화면용 전체 이름 */
         val full: String get() = (holidays + others).joinToString(" · ")
 
