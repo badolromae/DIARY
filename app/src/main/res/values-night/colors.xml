@@ -20,7 +20,9 @@
     <color name="cal_weekday">#FF7A8A82</color>
     <color name="cal_normal">#FFDCE6E1</color>
     <color name="cal_outside">#FF44534C</color>
-    <color name="cal_lunar">#FF6E7E76</color>
+    <color name="cal_lunar">#FF7E8F86</color>
+    <color name="cal_grid">#FF6E7F76</color>
+    <color name="today_ring">#FF3FA97D</color>
     <color name="mood_selected_bg">#FF17372A</color>
 
     <color name="lock_error">#FFFF8A80</color>
@@ -34,7 +36,9 @@
     <color name="widget_day_sat">#FF7FA8C4</color>
     <color name="widget_day_normal">#FFDCE6E1</color>
     <color name="widget_day_outside">#FF505F58</color>
-    <color name="widget_today_text">#FF061009</color>
+    <color name="widget_today_text">#FF5FC79A</color>
+    <color name="widget_today_fill">#243FA97D</color>
+    <color name="widget_grid">#FF2B3833</color>
     <color name="widget_time_text">#FF3FA97D</color>
     <color name="widget_body_text">#FFE4EDE8</color>
     <color name="widget_muted_text">#FF8A9A92</color>
