@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 기록이 없는 날/시간대에 넣는 빈 줄 -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/blank_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="14dp"
+    android:text=""
+    android:textSize="11sp" />
