@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
-    app:cardBackgroundColor="@color/surface"
+    app:cardBackgroundColor="?attr/colorSurface"
     app:cardCornerRadius="12dp"
     app:cardElevation="1dp"
-    app:strokeColor="@color/card_stroke"
+    app:strokeColor="?attr/colorOutline"
     app:strokeWidth="1dp">
 
     <LinearLayout
@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="오전 9:00"
-                android:textColor="@color/brand_accent"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="8/25"
-                android:textColor="@color/text_muted"
+                android:textColor="?attr/appTextMuted"
                 android:textSize="11sp"
                 android:visibility="gone" />
         </LinearLayout>
@@ -70,7 +70,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="제목"
-                    android:textColor="@color/text_primary"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -83,7 +83,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="내용"
-                android:textColor="@color/text_secondary"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="13sp" />
 
             <TextView
@@ -94,7 +94,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="#태그"
-                android:textColor="@color/brand_accent"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="12sp"
                 android:visibility="gone" />
 
@@ -113,7 +113,7 @@
                     android:layout_weight="1"
                     android:max="100"
                     android:progress="50"
-                    android:progressDrawable="@drawable/widget_importance_progress" />
+                    android:progressDrawable="@drawable/importance_progress" />
 
                 <TextView
                     android:id="@+id/entry_importance_text"
@@ -121,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="50%"
-                    android:textColor="@color/text_muted"
+                    android:textColor="?attr/appTextMuted"
                     android:textSize="11sp" />
             </LinearLayout>
         </LinearLayout>

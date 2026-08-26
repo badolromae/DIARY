@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_bg"
+    android:background="?android:attr/colorBackground"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarSettings"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/brand"
+        android:background="?attr/appToolbar"
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
         app:title="설정"
         app:titleTextColor="@color/white" />
@@ -25,6 +25,44 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
+
+            <!-- 디자인 -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/SettingsCard">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView style="@style/SettingsHeader" android:text="디자인" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:text="앱과 위젯의 색이 함께 바뀝니다."
+                        android:textColor="?attr/appTextMuted"
+                        android:textSize="12sp" />
+
+                    <RadioGroup
+                        android:id="@+id/radioTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RadioButton android:id="@+id/rbThemeGreen" android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:text="딥그린 (원버전)" />
+                        <RadioButton android:id="@+id/rbThemeBlue" android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:text="스카이블루" />
+                        <RadioButton android:id="@+id/rbThemePink" android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:text="연핑크" />
+                        <RadioButton android:id="@+id/rbThemeMono" android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:text="블랙 + 그레이" />
+                    </RadioGroup>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- 알림 -->
             <com.google.android.material.card.MaterialCardView
@@ -43,7 +81,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="매일 일기 알림"
-                        android:textColor="@color/text_primary"
+                        android:textColor="?attr/colorOnSurface"
                         android:textSize="15sp" />
 
                     <com.google.android.material.button.MaterialButton
@@ -68,16 +106,16 @@
 
                         <RadioButton android:id="@+id/rbBoth" android:layout_width="match_parent"
                             android:layout_height="wrap_content" android:text="소리 + 진동"
-                            android:textColor="@color/text_primary" />
+                            android:textColor="?attr/colorOnSurface" />
                         <RadioButton android:id="@+id/rbSound" android:layout_width="match_parent"
                             android:layout_height="wrap_content" android:text="소리만"
-                            android:textColor="@color/text_primary" />
+                            android:textColor="?attr/colorOnSurface" />
                         <RadioButton android:id="@+id/rbVibrate" android:layout_width="match_parent"
                             android:layout_height="wrap_content" android:text="진동만"
-                            android:textColor="@color/text_primary" />
+                            android:textColor="?attr/colorOnSurface" />
                         <RadioButton android:id="@+id/rbSilent" android:layout_width="match_parent"
                             android:layout_height="wrap_content" android:text="무음"
-                            android:textColor="@color/text_primary" />
+                            android:textColor="?attr/colorOnSurface" />
                     </RadioGroup>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -99,7 +137,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="앱 잠금 사용 (PIN)"
-                        android:textColor="@color/text_primary"
+                        android:textColor="?attr/colorOnSurface"
                         android:textSize="15sp" />
 
                     <com.google.android.material.button.MaterialButton
@@ -119,7 +157,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="지문 / 얼굴 인식 사용"
-                        android:textColor="@color/text_primary"
+                        android:textColor="?attr/colorOnSurface"
                         android:textSize="15sp" />
 
                     <TextView
@@ -128,7 +166,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="지문 또는 얼굴 인식으로도 잠금을 해제합니다."
-                        android:textColor="@color/text_muted"
+                        android:textColor="?attr/appTextMuted"
                         android:textSize="12sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -140,7 +178,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="버전 1.0"
-                android:textColor="@color/text_muted"
+                android:textColor="?attr/appTextMuted"
                 android:textSize="12sp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

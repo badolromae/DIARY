@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_bg">
+    android:background="?android:attr/colorBackground">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -16,9 +16,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/brand"
+            android:background="?attr/appToolbar"
             android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
-            app:title="다이어리"
+            app:title="EnJJoy"
             app:titleTextColor="@color/white" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="2026년 8월"
-                android:textColor="@color/text_primary"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -62,7 +62,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="이전 달"
                 android:src="@drawable/ic_chevron_left"
-                app:tint="@color/text_secondary" />
+                app:tint="?attr/colorOnSurfaceVariant" />
 
             <ImageButton
                 android:id="@+id/btnNextMonth"
@@ -71,7 +71,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="다음 달"
                 android:src="@drawable/ic_chevron_right"
-                app:tint="@color/text_secondary" />
+                app:tint="?attr/colorOnSurfaceVariant" />
         </LinearLayout>
 
         <com.jooshin.diary.ui.MonthCalendarView
@@ -85,7 +85,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/divider" />
+            android:background="?attr/colorOutlineVariant" />
 
         <TextView
             android:id="@+id/tvSelectedDate"
@@ -96,7 +96,7 @@
             android:paddingTop="12dp"
             android:paddingBottom="1dp"
             android:text="오늘"
-            android:textColor="@color/text_primary"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="15sp"
             android:textStyle="bold" />
 
@@ -110,7 +110,7 @@
             android:paddingEnd="16dp"
             android:paddingBottom="4dp"
             android:text=""
-            android:textColor="@color/text_muted"
+            android:textColor="?attr/appTextMuted"
             android:textSize="12sp" />
 
         <FrameLayout
@@ -135,7 +135,7 @@
                 android:layout_gravity="center"
                 android:text="이 날의 기록이 없습니다.\n아래 + 버튼으로 추가하세요."
                 android:gravity="center"
-                android:textColor="@color/text_muted"
+                android:textColor="?attr/appTextMuted"
                 android:textSize="14sp"
                 android:visibility="gone" />
         </FrameLayout>
@@ -149,6 +149,6 @@
         android:layout_margin="20dp"
         android:contentDescription="일기 추가"
         android:src="@drawable/ic_add"
-        app:backgroundTint="@color/brand_accent"
+        app:backgroundTint="?attr/colorPrimary"
         app:tint="@color/white" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

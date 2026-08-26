@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_bg"
+    android:background="?android:attr/colorBackground"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarSearch"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/brand"
+        android:background="?attr/appToolbar"
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
         app:title="검색"
         app:titleTextColor="@color/white" />
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="검색어를 입력하세요."
-            android:textColor="@color/text_muted"
+            android:textColor="?attr/appTextMuted"
             android:textSize="14sp" />
     </FrameLayout>
 </LinearLayout>
