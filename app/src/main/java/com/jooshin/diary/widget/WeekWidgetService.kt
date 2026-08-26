@@ -25,7 +25,7 @@ class WeekWidgetService : RemoteViewsService() {
 private sealed class WeekRow {
     data class Header(val epochDay: Long, val isToday: Boolean) : WeekRow()
     data class Entry(val entry: DiaryEntry, val day: Long) : WeekRow()
-    data class Empty(val epochDay: Long) : WeekRow()
+    data class Blank(val epochDay: Long) : WeekRow()
 }
 
 private class WeekFactory(
@@ -49,7 +49,7 @@ private class WeekFactory(
             val ed = weekStart + i
             list.add(WeekRow.Header(ed, ed == today))
             val dayItems = all.forDay(ed)
-            if (dayItems.isEmpty()) list.add(WeekRow.Empty(ed))
+            if (dayItems.isEmpty()) list.add(WeekRow.Blank(ed))
             else dayItems.forEach { list.add(WeekRow.Entry(it, ed)) }
         }
         rows = list
@@ -59,77 +59,116 @@ private class WeekFactory(
 
     override fun getViewAt(position: Int): RemoteViews {
         return when (val row = rows.getOrNull(position)) {
-            is WeekRow.Header -> {
-                val rv = RemoteViews(ctx.packageName, R.layout.widget_week_header)
-                val d = DateUtil.toDate(row.epochDay)
-                val info = KoreanHolidays.info(row.epochDay)
-                val label = "${d.dayOfMonth}일 (${DateUtil.weekdayShort(row.epochDay)})" +
-                    if (row.isToday) "  · 오늘" else ""
-                rv.setTextViewText(R.id.wk_head_day, label)
-
-                val dow = DateUtil.dowIndex(row.epochDay)
-                val red = dow == 0 || info.isHoliday
-                val color = when {
-                    row.isToday -> ContextCompat.getColor(ctx, R.color.brand_accent)
-                    red -> ContextCompat.getColor(ctx, R.color.widget_day_sun)
-                    dow == 6 -> ContextCompat.getColor(ctx, R.color.widget_day_sat)
-                    else -> ContextCompat.getColor(ctx, R.color.widget_header_text)
-                }
-                rv.setTextColor(R.id.wk_head_day, color)
-
-                val lunar = LunarCalendar.shortLabel(row.epochDay)
-                val note = info.short
-                val sub = listOf(lunar, note).filter { it.isNotEmpty() }.joinToString("  ·  ")
-                rv.setTextViewText(R.id.wk_head_sub, sub)
-                rv.setTextColor(
-                    R.id.wk_head_sub,
-                    if (info.isHoliday) ContextCompat.getColor(ctx, R.color.widget_day_sun)
-                    else ContextCompat.getColor(ctx, R.color.widget_lunar_text)
-                )
-
-                rv.setOnClickFillInIntent(
-                    R.id.wk_header_root,
-                    Intent().putExtra(MainActivity.EXTRA_DATE, row.epochDay)
-                )
-                rv
-            }
-
-            is WeekRow.Entry -> {
-                val e = row.entry
-                val rv = RemoteViews(ctx.packageName, R.layout.widget_week_entry)
-                rv.setTextViewText(
-                    R.id.wk_time,
-                    DateUtil.formatTimeRangeShort(
-                        e.dateEpochDay, e.timeMinutes, e.endDay, e.endTimeMinutes
-                    )
-                )
-                rv.setTextViewText(R.id.wk_title, e.title.ifBlank { "(제목 없음)" })
-                rv.setTextViewText(R.id.wk_mood, e.mood)
-                rv.setViewVisibility(R.id.wk_mood, if (e.mood.isBlank()) View.GONE else View.VISIBLE)
-                rv.setProgressBar(R.id.wk_importance, 100, e.importance, false)
-                val fill = Intent()
-                    .putExtra(MainActivity.EXTRA_ENTRY_ID, e.id)
-                    .putExtra(MainActivity.EXTRA_DATE, row.day)
-                rv.setOnClickFillInIntent(R.id.wk_entry_root, fill)
-                rv
-            }
-
-            is WeekRow.Empty -> {
-                val rv = RemoteViews(ctx.packageName, R.layout.widget_week_empty)
-                val fill = Intent()
-                    .putExtra(MainActivity.EXTRA_DATE, row.epochDay)
-                    .putExtra(MainActivity.EXTRA_NEW, true)
-                rv.setOnClickFillInIntent(R.id.wk_empty_root, fill)
-                rv
-            }
-
-            else -> RemoteViews(ctx.packageName, R.layout.widget_week_empty)
+            is WeekRow.Header -> buildHeader(ctx, row.epochDay, row.isToday)
+            is WeekRow.Entry -> buildEntry(ctx, row.entry, row.day)
+            is WeekRow.Blank -> buildBlank(ctx, row.epochDay)
+            else -> RemoteViews(ctx.packageName, R.layout.widget_blank_row)
         }
     }
 
-    override fun getLoadingView(): RemoteViews? = null
+    // 로딩 중에 기본 "로드 중.." 문구가 뜨지 않도록 빈 줄을 돌려준다.
+    override fun getLoadingView(): RemoteViews =
+        RemoteViews(ctx.packageName, R.layout.widget_blank_row)
+
     override fun getViewTypeCount(): Int = 3
     override fun getItemId(position: Int): Long = position.toLong()
     override fun hasStableIds(): Boolean = false
     override fun onDestroy() {}
+}
+
+/** "8/24 월요일" 헤더 + 오른쪽에 음력·공휴일 */
+internal fun buildHeader(ctx: Context, epochDay: Long, isToday: Boolean): RemoteViews {
+    val rv = RemoteViews(ctx.packageName, R.layout.widget_week_header)
+    val info = KoreanHolidays.info(epochDay)
+    val label = DateUtil.formatDateWeekdayFull(epochDay) + if (isToday) "  · 오늘" else ""
+    rv.setTextViewText(R.id.wk_head_day, label)
+
+    val dow = DateUtil.dowIndex(epochDay)
+    val red = dow == 0 || info.isHoliday
+    rv.setTextColor(
+        R.id.wk_head_day,
+        when {
+            isToday -> ContextCompat.getColor(ctx, R.color.brand_accent)
+            red -> ContextCompat.getColor(ctx, R.color.widget_day_sun)
+            dow == 6 -> ContextCompat.getColor(ctx, R.color.widget_day_sat)
+            else -> ContextCompat.getColor(ctx, R.color.widget_header_text)
+        }
+    )
+
+    val sub = listOf(LunarCalendar.shortLabel(epochDay), info.short)
+        .filter { it.isNotEmpty() }.joinToString("  ·  ")
+    rv.setTextViewText(R.id.wk_head_sub, sub)
+    rv.setTextColor(
+        R.id.wk_head_sub,
+        if (info.isHoliday) ContextCompat.getColor(ctx, R.color.widget_day_sun)
+        else ContextCompat.getColor(ctx, R.color.widget_lunar_text)
+    )
+
+    rv.setOnClickFillInIntent(
+        R.id.wk_header_root,
+        Intent().putExtra(MainActivity.EXTRA_DATE, epochDay)
+    )
+    return rv
+}
+
+/** 시간대 헤더("오전 9시") — 일 위젯에서 사용 */
+internal fun buildHourHeader(ctx: Context, epochDay: Long, hour: Int, isNow: Boolean): RemoteViews {
+    val rv = RemoteViews(ctx.packageName, R.layout.widget_week_header)
+    rv.setTextViewText(R.id.wk_head_day, DateUtil.formatHour(hour))
+    rv.setTextColor(
+        R.id.wk_head_day,
+        if (isNow) ContextCompat.getColor(ctx, R.color.brand_accent)
+        else ContextCompat.getColor(ctx, R.color.widget_header_text)
+    )
+    rv.setTextViewText(R.id.wk_head_sub, if (isNow) "지금" else "")
+    rv.setTextColor(R.id.wk_head_sub, ContextCompat.getColor(ctx, R.color.brand_accent))
+    rv.setOnClickFillInIntent(
+        R.id.wk_header_root,
+        Intent()
+            .putExtra(MainActivity.EXTRA_DATE, epochDay)
+            .putExtra(MainActivity.EXTRA_NEW, true)
+            .putExtra(MainActivity.EXTRA_TIME, hour * 60)
+    )
+    return rv
+}
+
+/** 종일/이어지는 일정 구간 헤더 */
+internal fun buildAllDayHeader(ctx: Context, epochDay: Long): RemoteViews {
+    val rv = RemoteViews(ctx.packageName, R.layout.widget_week_header)
+    rv.setTextViewText(R.id.wk_head_day, "종일")
+    rv.setTextColor(R.id.wk_head_day, ContextCompat.getColor(ctx, R.color.widget_header_text))
+    rv.setTextViewText(R.id.wk_head_sub, "")
+    rv.setOnClickFillInIntent(
+        R.id.wk_header_root,
+        Intent().putExtra(MainActivity.EXTRA_DATE, epochDay)
+    )
+    return rv
+}
+
+internal fun buildEntry(ctx: Context, e: DiaryEntry, day: Long): RemoteViews {
+    val rv = RemoteViews(ctx.packageName, R.layout.widget_week_entry)
+    rv.setTextViewText(
+        R.id.wk_time,
+        DateUtil.formatTimeRangeShort(e.dateEpochDay, e.timeMinutes, e.endDay, e.endTimeMinutes)
+    )
+    rv.setTextViewText(R.id.wk_title, e.title.ifBlank { "(제목 없음)" })
+    rv.setTextViewText(R.id.wk_mood, e.mood)
+    rv.setViewVisibility(R.id.wk_mood, if (e.mood.isBlank()) View.GONE else View.VISIBLE)
+    rv.setProgressBar(R.id.wk_importance, 100, e.importance, false)
+    rv.setOnClickFillInIntent(
+        R.id.wk_entry_root,
+        Intent()
+            .putExtra(MainActivity.EXTRA_ENTRY_ID, e.id)
+            .putExtra(MainActivity.EXTRA_DATE, day)
+    )
+    return rv
+}
+
+internal fun buildBlank(ctx: Context, epochDay: Long): RemoteViews {
+    val rv = RemoteViews(ctx.packageName, R.layout.widget_blank_row)
+    rv.setOnClickFillInIntent(
+        R.id.blank_root,
+        Intent().putExtra(MainActivity.EXTRA_DATE, epochDay)
+    )
+    return rv
 }

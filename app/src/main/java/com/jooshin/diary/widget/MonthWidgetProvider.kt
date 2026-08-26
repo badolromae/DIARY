@@ -2,7 +2,12 @@ package com.jooshin.diary.widget
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
-import android.view.View
+import android.graphics.Typeface
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import com.jooshin.diary.R
@@ -15,9 +20,10 @@ import com.jooshin.diary.util.LunarCalendar
 /**
  * 월 달력 위젯.
  *
- * GridView + RemoteViewsService(컬렉션) 방식은 런처에 따라 항목 터치가
- * 동작하지 않는 경우가 있어, 6주 x 7일 셀을 직접 만들고 칸마다
- * PendingIntent 를 붙이는 정적 그리드 방식으로 구현했다.
+ * - 이번 달 날짜만 표시한다. (지난달/다음달 칸은 비워둠)
+ * - 칸마다 직접 PendingIntent 를 붙여서 런처와 무관하게 터치가 동작한다.
+ * - 위젯(RemoteViews)에서는 <View> 를 쓸 수 없으므로 한 칸을 TextView 하나로 만들고
+ *   날짜/음력/공휴일을 색과 크기가 다른 한 덩이 텍스트로 넣는다.
  */
 class MonthWidgetProvider : BaseCalendarWidget() {
 
@@ -47,80 +53,102 @@ class MonthWidgetProvider : BaseCalendarWidget() {
         views.setOnClickPendingIntent(
             R.id.btn_today, WidgetCommon.navPendingIntent(c, javaClass, WidgetCommon.ACTION_TODAY, id)
         )
-        views.setOnClickPendingIntent(
-            R.id.month_title, WidgetCommon.openForDate(c, today, false, id)
-        )
+        views.setOnClickPendingIntent(R.id.month_title, WidgetCommon.openDate(c, today))
 
-        val gridStart = DateUtil.monthGridStart(anchor)
-        val gridEnd = gridStart + 41
-        val monthValue = DateUtil.toDate(anchor).monthValue
+        // 이번 달 범위
+        val firstDate = DateUtil.toDate(anchor)
+        val daysInMonth = firstDate.lengthOfMonth()
+        val leading = DateUtil.dowIndex(anchor)             // 1일이 무슨 요일인지 (0=일)
+        val rowCount = ((leading + daysInMonth) + 6) / 7    // 필요한 줄 수 (4~6)
+
         val counts = AppDatabase.get(c).diaryDao()
-            .getOverlappingSync(gridStart, gridEnd)
-            .countsByDay(gridStart, gridEnd)
+            .getOverlappingSync(anchor, anchor + daysInMonth - 1)
+            .countsByDay(anchor, anchor + daysInMonth - 1)
 
-        val cToday = ContextCompat.getColor(c, R.color.widget_today_text)
-        val cOutside = ContextCompat.getColor(c, R.color.widget_day_outside)
         val cSun = ContextCompat.getColor(c, R.color.widget_day_sun)
         val cSat = ContextCompat.getColor(c, R.color.widget_day_sat)
         val cNormal = ContextCompat.getColor(c, R.color.widget_day_normal)
+        val cToday = ContextCompat.getColor(c, R.color.widget_today_text)
         val cLunar = ContextCompat.getColor(c, R.color.widget_lunar_text)
         val cMuted = ContextCompat.getColor(c, R.color.widget_muted_text)
+        val cAccent = ContextCompat.getColor(c, R.color.brand_accent)
 
         views.removeAllViews(R.id.month_rows)
-        for (w in 0 until 6) {
+        for (w in 0 until rowCount) {
             val row = RemoteViews(c.packageName, R.layout.widget_month_row)
             for (i in 0 until 7) {
-                val ed = gridStart + w * 7 + i
-                val d = DateUtil.toDate(ed)
-                val inMonth = d.monthValue == monthValue
+                val cell = RemoteViews(c.packageName, R.layout.widget_month_cell)
+                val dayNum = w * 7 + i - leading + 1
+
+                if (dayNum < 1 || dayNum > daysInMonth) {
+                    // 지난달/다음달 칸: 완전히 비워 둔다
+                    cell.setTextViewText(R.id.cell_day, "")
+                    cell.setInt(R.id.cell_day, "setBackgroundResource", 0)
+                    row.addView(R.id.row_root, cell)
+                    continue
+                }
+
+                val ed = anchor + (dayNum - 1)
                 val isToday = ed == today
                 val dow = DateUtil.dowIndex(ed)
                 val info = KoreanHolidays.info(ed)
                 val red = dow == 0 || info.isHoliday
-
-                val cell = RemoteViews(c.packageName, R.layout.widget_month_cell)
-                cell.setTextViewText(R.id.cell_day, d.dayOfMonth.toString())
-                cell.setTextColor(
-                    R.id.cell_day,
-                    when {
-                        isToday -> cToday
-                        !inMonth -> cOutside
-                        red -> cSun
-                        dow == 6 -> cSat
-                        else -> cNormal
-                    }
-                )
-                cell.setInt(
-                    R.id.cell_day, "setBackgroundResource",
-                    if (isToday) R.drawable.bg_widget_today else 0
-                )
-
-                cell.setTextViewText(R.id.cell_lunar, LunarCalendar.shortLabel(ed))
-                cell.setTextColor(R.id.cell_lunar, if (inMonth) cLunar else cOutside)
-
-                val note = info.short
-                if (note.isEmpty()) {
-                    cell.setViewVisibility(R.id.cell_note, View.GONE)
-                } else {
-                    cell.setViewVisibility(R.id.cell_note, View.VISIBLE)
-                    cell.setTextViewText(R.id.cell_note, note)
-                    cell.setTextColor(
-                        R.id.cell_note,
-                        when {
-                            !inMonth -> cOutside
-                            info.isHoliday -> cSun
-                            else -> cMuted
-                        }
-                    )
+                val dayColor = when {
+                    isToday -> cToday
+                    red -> cSun
+                    dow == 6 -> cSat
+                    else -> cNormal
                 }
 
-                cell.setViewVisibility(
-                    R.id.cell_dot,
-                    if ((counts[ed] ?: 0) > 0) View.VISIBLE else View.INVISIBLE
+                val sb = SpannableStringBuilder()
+
+                // 1행: 날짜
+                sb.append(dayNum.toString())
+                sb.setSpan(ForegroundColorSpan(dayColor), 0, sb.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                if (isToday) {
+                    sb.setSpan(StyleSpan(Typeface.BOLD), 0, sb.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+
+                // 2행: (기록 표시) + 음력
+                sb.append("\n")
+                val line2Start = sb.length
+                if ((counts[ed] ?: 0) > 0) {
+                    sb.append("• ")
+                    sb.setSpan(
+                        ForegroundColorSpan(cAccent), line2Start, sb.length,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+                val lunarStart = sb.length
+                sb.append(LunarCalendar.shortLabel(ed))
+                sb.setSpan(
+                    ForegroundColorSpan(cLunar), lunarStart, sb.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                sb.setSpan(
+                    RelativeSizeSpan(0.62f), line2Start, sb.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
 
-                // 칸마다 직접 PendingIntent → 런처와 무관하게 터치가 동작한다.
-                cell.setOnClickPendingIntent(R.id.cell_root, WidgetCommon.openDate(c, ed))
+                // 3행: 공휴일/기념일
+                val note = info.compact
+                if (note.isNotEmpty()) {
+                    sb.append("\n")
+                    val s3 = sb.length
+                    sb.append(note)
+                    sb.setSpan(
+                        ForegroundColorSpan(if (info.isHoliday) cSun else cMuted),
+                        s3, sb.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                    sb.setSpan(RelativeSizeSpan(0.6f), s3, sb.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+
+                cell.setTextViewText(R.id.cell_day, sb)
+                cell.setInt(
+                    R.id.cell_day, "setBackgroundResource",
+                    if (isToday) R.drawable.bg_widget_today_cell else 0
+                )
+                cell.setOnClickPendingIntent(R.id.cell_day, WidgetCommon.openDate(c, ed))
 
                 row.addView(R.id.row_root, cell)
             }
