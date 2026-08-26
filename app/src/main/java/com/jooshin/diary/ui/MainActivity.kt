@@ -138,9 +138,11 @@ class MainActivity : AppCompatActivity() {
         val entryId = i.getLongExtra(EXTRA_ENTRY_ID, 0L)
         val date = i.getLongExtra(EXTRA_DATE, Long.MIN_VALUE)
         val isNew = i.getBooleanExtra(EXTRA_NEW, false)
+        val time = i.getIntExtra(EXTRA_TIME, -1)
         i.removeExtra(EXTRA_ENTRY_ID)
         i.removeExtra(EXTRA_DATE)
         i.removeExtra(EXTRA_NEW)
+        i.removeExtra(EXTRA_TIME)
 
         if (entryId > 0L) {
             openEditor(entryId)
@@ -148,14 +150,15 @@ class MainActivity : AppCompatActivity() {
         }
         if (date != Long.MIN_VALUE) {
             handleSelect(date)
-            if (isNew) openEditorNew(date)
+            if (isNew) openEditorNew(date, time)
         }
     }
 
-    private fun openEditorNew(day: Long) {
+    private fun openEditorNew(day: Long, time: Int = -1) {
         startActivity(Intent(this, EntryEditorActivity::class.java).apply {
             putExtra(EXTRA_DATE, day)
             putExtra(EXTRA_NEW, true)
+            if (time >= 0) putExtra(EXTRA_TIME, time)
         })
     }
 
@@ -178,6 +181,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: android.view.Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+        // 어두운 상단바 위에서 잘 보이도록 아이콘을 흰색으로
+        // (mutate() 로 복사해서 칠해야 다른 화면의 같은 아이콘까지 흰색이 되지 않는다)
+        val white = ContextCompat.getColor(this, R.color.white)
+        for (i in 0 until menu.size()) {
+            menu.getItem(i).icon = menu.getItem(i).icon?.mutate()?.also { it.setTint(white) }
+        }
         return true
     }
 
@@ -197,5 +206,8 @@ class MainActivity : AppCompatActivity() {
         const val EXTRA_DATE = "extra_date"
         const val EXTRA_ENTRY_ID = "extra_entry_id"
         const val EXTRA_NEW = "extra_new"
+
+        /** 새 일기의 시작 시각(자정부터의 분). 일 위젯의 시간대 탭에서 사용. */
+        const val EXTRA_TIME = "extra_time"
     }
 }

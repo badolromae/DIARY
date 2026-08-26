@@ -69,6 +69,12 @@ class EntryEditorActivity : AppCompatActivity() {
         val incomingDate = intent.getLongExtra(MainActivity.EXTRA_DATE, Long.MIN_VALUE)
         if (incomingDate != Long.MIN_VALUE) dateEpochDay = incomingDate
         endDateEpochDay = dateEpochDay
+        // 일 위젯에서 시간대를 눌러 들어온 경우 그 시각을 시작 시각으로
+        val incomingTime = intent.getIntExtra(MainActivity.EXTRA_TIME, -1)
+        if (entryId <= 0L && incomingTime in 0..1439) {
+            timeMinutes = incomingTime
+            endTimeMinutes = (incomingTime + 60).coerceAtMost(23 * 60 + 59)
+        }
 
         binding.toolbarEditor.title = if (entryId > 0L) "일기 수정" else "새 일기"
 
@@ -479,6 +485,10 @@ class EntryEditorActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_editor, menu)
         menu.findItem(R.id.action_delete)?.isVisible = entryId > 0L
+        val white = androidx.core.content.ContextCompat.getColor(this, R.color.white)
+        for (i in 0 until menu.size()) {
+            menu.getItem(i).icon = menu.getItem(i).icon?.mutate()?.also { it.setTint(white) }
+        }
         return true
     }
 

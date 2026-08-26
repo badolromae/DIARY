@@ -76,13 +76,18 @@ class MonthCalendarView @JvmOverloads constructor(
     private fun buildWeekRow(): View {
         val row = LinearLayout(context).apply {
             orientation = HORIZONTAL
-            layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, dp(60))
+            layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, dp(68))
         }
         for (c in 0..6) {
             val cell = FrameLayout(context).apply {
                 layoutParams = LayoutParams(0, LayoutParams.MATCH_PARENT, 1f)
                 isClickable = true
-                setBackgroundResource(selectableItemBackgroundRes())
+                // 날짜별 구분선 (흰색 테두리)
+                setBackgroundResource(R.drawable.cal_cell_border)
+                val rippleRes = selectableItemBackgroundRes()
+                if (rippleRes != 0) {
+                    foreground = ContextCompat.getDrawable(context, rippleRes)
+                }
             }
             val box = LinearLayout(context).apply {
                 orientation = VERTICAL
@@ -95,15 +100,15 @@ class MonthCalendarView @JvmOverloads constructor(
             }
             val day = TextView(context).apply {
                 gravity = Gravity.CENTER
-                textSize = 14f
-                layoutParams = LinearLayout.LayoutParams(dp(28), dp(28))
+                textSize = 16f
+                layoutParams = LinearLayout.LayoutParams(dp(30), dp(30))
             }
             val dot = View(context).apply {
-                layoutParams = LinearLayout.LayoutParams(dp(14), dp(3)).also { it.topMargin = dp(1) }
+                layoutParams = LinearLayout.LayoutParams(dp(16), dp(3)).also { it.topMargin = dp(1) }
             }
             val lunar = TextView(context).apply {
                 gravity = Gravity.CENTER
-                textSize = 9f
+                textSize = 10f
                 maxLines = 1
                 includeFontPadding = false
                 setTextColor(ContextCompat.getColor(context, R.color.cal_lunar))
@@ -114,7 +119,7 @@ class MonthCalendarView @JvmOverloads constructor(
             }
             val note = TextView(context).apply {
                 gravity = Gravity.CENTER
-                textSize = 9f
+                textSize = 10f
                 maxLines = 1
                 includeFontPadding = false
                 ellipsize = android.text.TextUtils.TruncateAt.END
@@ -213,7 +218,7 @@ class MonthCalendarView @JvmOverloads constructor(
             lunarViews[i].text = LunarCalendar.shortLabel(ed)
             lunarViews[i].setTextColor(if (inMonth) cLunar else cOutside)
 
-            val note = info.short
+            val note = info.compact
             if (note.isEmpty()) {
                 noteViews[i].visibility = View.GONE
             } else {
