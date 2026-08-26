@@ -311,7 +311,7 @@ class EntryEditorActivity : AppCompatActivity() {
 
         val days = (endDateEpochDay - dateEpochDay).toInt() + 1
         val summary = DateUtil.formatRangeLong(dateEpochDay, timeMinutes, endDateEpochDay, endTimeMinutes) +
-            if (days > 1) "   ($days일간)" else ""
+            if (days > 1) "   (${days}일간)" else ""
         binding.tvRangeSummary.text = summary
     }
 
