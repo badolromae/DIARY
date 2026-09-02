@@ -1,55 +1,67 @@
 name: Build APK
- 
+
 on:
   push:
     branches: [ main, master ]
   workflow_dispatch:
- 
+
 permissions:
   contents: read
- 
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v5
- 
+
       - name: Set up JDK 17
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
- 
+
       - name: Set up Android SDK
         uses: android-actions/setup-android@v4
- 
+
       - name: Accept SDK licenses
         run: yes | sdkmanager --licenses || true
- 
+
       - name: Install SDK packages
         run: sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
- 
+
       - name: Restore fixed debug keystore
         run: |
-          mkdir -p ~/.android
-          if [ -f debug-keystore.b64 ]; then
-            base64 -d debug-keystore.b64 > ~/.android/debug.keystore
-            echo "고정 서명키 사용 - 기존 앱 위에 업데이트 설치 가능"
-          else
-            echo "debug-keystore.b64 파일이 없습니다. 매번 다른 임시 키가 만들어져 업데이트 설치가 안 됩니다."
+          if [ ! -f debug-keystore.b64 ]; then
+            echo "::error::debug-keystore.b64 파일이 저장소에 없습니다. 이 파일이 없으면 서명이 매번 바뀌어서, 기존 앱 위에 업데이트 설치가 안 되고 사용자가 앱을 지우고 다시 깔아야 합니다(모든 기록이 사라짐). 그런 APK를 만들지 않도록 빌드를 여기서 중단합니다."
+            exit 1
           fi
- 
+          # 저장소 바로 아래(체크아웃 루트)에 복원한다. app/build.gradle 이 이 정확한 경로를
+          # (rootProject.file('debug.keystore')) 직접 가리키도록 되어 있어서, 빌드 서버가 알아서
+          # 추정하는 기본 위치(~/.android/debug.keystore 등)에 의존하지 않는다.
+          base64 -d debug-keystore.b64 > debug.keystore
+          if [ ! -s debug.keystore ]; then
+            echo "::error::debug-keystore.b64 를 풀었는데 결과 파일이 비어 있습니다. 저장소의 debug-keystore.b64 내용이 올바른지 확인하세요."
+            exit 1
+          fi
+          if ! keytool -list -keystore debug.keystore -storepass android -alias androiddebugkey > /tmp/keystore_info.txt 2>&1; then
+            echo "::error::복원한 서명키를 열 수 없습니다(손상되었을 수 있음). 아래 오류를 확인하세요."
+            cat /tmp/keystore_info.txt
+            exit 1
+          fi
+          echo "고정 서명키 확인 완료 - 기존 앱 위에 업데이트 설치가 가능합니다."
+          echo "서명키 지문(참고용, 앱을 새로 설치해야 했다면 이 값이 이전 빌드 로그와 같은지 비교하세요):"
+          keytool -list -keystore debug.keystore -storepass android -alias androiddebugkey | grep -i "SHA256\|SHA1" || true
+
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
- 
+
       - name: Build debug APK
         run: ./gradlew assembleDebug --stacktrace
- 
+
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: MyDiary-APK
+          name: EnJJoy-APK
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
- 
