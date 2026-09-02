@@ -12,7 +12,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
-import com.jooshin.diary.BuildConfig
 import com.jooshin.diary.R
 import com.jooshin.diary.databinding.ActivitySettingsBinding
 import com.jooshin.diary.notify.ReminderScheduler
@@ -128,7 +127,7 @@ class SettingsActivity : AppCompatActivity() {
         }
         updateSecurityControls()
 
-        binding.tvVersion.text = "버전 ${BuildConfig.VERSION_NAME} · 폐쇄형 개인 다이어리 (공유 기능 없음)"
+        binding.tvVersion.text = "EnJJoy V2.0 · 폐쇄형 개인 다이어리 (공유 기능 없음)"
     }
 
     private fun updateDailyTimeText() {
