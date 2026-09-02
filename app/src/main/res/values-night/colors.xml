@@ -50,8 +50,8 @@
     <!-- 팔레트 4종 (테마 전환용) -->
     <!-- 딥그린 -->
     <color name="pg_toolbar">#FF060D0A</color>
-    <color name="pg_accent">#FF3FA97D</color>
-    <color name="pg_accent_soft">#333FA97D</color>
+    <color name="pg_accent">#FF36C991</color>
+    <color name="pg_accent_soft">#3336C991</color>
     <color name="pg_bg">#FF070C0A</color>
     <color name="pg_surface">#FF101714</color>
     <color name="pg_section">#FF17201C</color>
@@ -65,13 +65,13 @@
     <color name="pg_cal_outside">#FF44534C</color>
     <color name="pg_cal_lunar">#FF7E8F86</color>
     <color name="pg_cal_grid">#FF6E7F76</color>
-    <color name="pg_today_ring">#FF3FA97D</color>
+    <color name="pg_today_ring">#FF36C991</color>
     <color name="pg_mood_bg">#FF17372A</color>
 
     <!-- 스카이블루 -->
     <color name="pb_toolbar">#FF050D14</color>
-    <color name="pb_accent">#FF55AEE8</color>
-    <color name="pb_accent_soft">#3355AEE8</color>
+    <color name="pb_accent">#FF5EB3ED</color>
+    <color name="pb_accent_soft">#335EB3ED</color>
     <color name="pb_bg">#FF070B0E</color>
     <color name="pb_surface">#FF101619</color>
     <color name="pb_section">#FF171F25</color>
@@ -85,13 +85,13 @@
     <color name="pb_cal_outside">#FF445059</color>
     <color name="pb_cal_lunar">#FF7E8A94</color>
     <color name="pb_cal_grid">#FF6E7A84</color>
-    <color name="pb_today_ring">#FF55AEE8</color>
+    <color name="pb_today_ring">#FF5EB3ED</color>
     <color name="pb_mood_bg">#FF16374F</color>
 
     <!-- 연핑크 -->
     <color name="pp_toolbar">#FF14080C</color>
-    <color name="pp_accent">#FFE894B4</color>
-    <color name="pp_accent_soft">#33E894B4</color>
+    <color name="pp_accent">#FFEA7BA3</color>
+    <color name="pp_accent_soft">#33EA7BA3</color>
     <color name="pp_bg">#FF0E0A0B</color>
     <color name="pp_surface">#FF191214</color>
     <color name="pp_section">#FF211719</color>
@@ -105,13 +105,13 @@
     <color name="pp_cal_outside">#FF59484E</color>
     <color name="pp_cal_lunar">#FF948188</color>
     <color name="pp_cal_grid">#FF7A6870</color>
-    <color name="pp_today_ring">#FFE894B4</color>
+    <color name="pp_today_ring">#FFEA7BA3</color>
     <color name="pp_mood_bg">#FF40202C</color>
 
     <!-- 블랙+그레이 -->
     <color name="pm_toolbar">#FF000000</color>
-    <color name="pm_accent">#FFA8B2BC</color>
-    <color name="pm_accent_soft">#33A8B2BC</color>
+    <color name="pm_accent">#FFA3B2C2</color>
+    <color name="pm_accent_soft">#33A3B2C2</color>
     <color name="pm_bg">#FF08090A</color>
     <color name="pm_surface">#FF131517</color>
     <color name="pm_section">#FF1A1D20</color>
@@ -125,6 +125,92 @@
     <color name="pm_cal_outside">#FF4A4F55</color>
     <color name="pm_cal_lunar">#FF838A90</color>
     <color name="pm_cal_grid">#FF6E757C</color>
-    <color name="pm_today_ring">#FFA8B2BC</color>
+    <color name="pm_today_ring">#FFA3B2C2</color>
     <color name="pm_mood_bg">#FF262C32</color>
+
+    <!-- 레드+주황 -->
+    <color name="pr_toolbar">#FF0D0806</color>
+    <color name="pr_accent">#FFE75940</color>
+    <color name="pr_accent_soft">#33E75940</color>
+    <color name="pr_bg">#FF0C0807</color>
+    <color name="pr_surface">#FF171210</color>
+    <color name="pr_section">#FF201A17</color>
+    <color name="pr_stroke">#FF2A221E</color>
+    <color name="pr_text_primary">#FFEDE7E4</color>
+    <color name="pr_text_secondary">#FFB5ABA6</color>
+    <color name="pr_text_muted">#FF8A7F7A</color>
+    <color name="pr_divider">#FF2A221E</color>
+    <color name="pr_on_selected">#FF100906</color>
+    <color name="pr_cal_normal">#FFE6DFDC</color>
+    <color name="pr_cal_outside">#FF534844</color>
+    <color name="pr_cal_lunar">#FF8F837E</color>
+    <color name="pr_cal_grid">#FF7F736E</color>
+    <color name="pr_today_ring">#FFE75940</color>
+    <color name="pr_mood_bg">#FF372117</color>
+
+    <!-- 군청 -->
+    <color name="pn_toolbar">#FF06070D</color>
+    <color name="pn_accent">#FF3653C9</color>
+    <color name="pn_accent_soft">#333653C9</color>
+    <color name="pn_bg">#FF07080C</color>
+    <color name="pn_surface">#FF101117</color>
+    <color name="pn_section">#FF171920</color>
+    <color name="pn_stroke">#FF1E202A</color>
+    <color name="pn_text_primary">#FFE4E6ED</color>
+    <color name="pn_text_secondary">#FFA6A9B5</color>
+    <color name="pn_text_muted">#FF7A7D8A</color>
+    <color name="pn_divider">#FF1E202A</color>
+    <color name="pn_on_selected">#FF060810</color>
+    <color name="pn_cal_normal">#FFDCDEE6</color>
+    <color name="pn_cal_outside">#FF444753</color>
+    <color name="pn_cal_lunar">#FF7E818F</color>
+    <color name="pn_cal_grid">#FF6E717F</color>
+    <color name="pn_today_ring">#FF3653C9</color>
+    <color name="pn_mood_bg">#FF171D37</color>
+
+    <!--
+      연그린 (다크모드): 딥그린(pg)과 나란히 놓으면 거의 구분이 안 된다는 피드백이 있었다.
+      원인은 배경/표면 계열 색이 딥그린과 마찬가지로 명도가 거의 0에 가까운 "거의 검정"이라,
+      색상(hue)만 달라서는 눈에 잘 안 보였기 때문. 그래서 연그린은 배경/표면 계열의 명도와
+      채도를 확실히 올려서, 어두운 화면에서도 초록빛이 실제로 느껴지게 했다.
+      (강조색 pl_accent 는 이미 충분히 밝고 다르므로 그대로 둠)
+    -->
+    <color name="pl_toolbar">#FF0F2410</color>
+    <color name="pl_accent">#FF7BEA91</color>
+    <color name="pl_accent_soft">#337BEA91</color>
+    <color name="pl_bg">#FF111C12</color>
+    <color name="pl_surface">#FF1D2B1D</color>
+    <color name="pl_section">#FF213122</color>
+    <color name="pl_stroke">#FF2C3F2D</color>
+    <color name="pl_text_primary">#FFE4F0E6</color>
+    <color name="pl_text_secondary">#FFA9BCAD</color>
+    <color name="pl_text_muted">#FF808F83</color>
+    <color name="pl_divider">#FF2C3F2D</color>
+    <color name="pl_on_selected">#FF0A180D</color>
+    <color name="pl_cal_normal">#FFDCEBDF</color>
+    <color name="pl_cal_outside">#FF48594B</color>
+    <color name="pl_cal_lunar">#FF819485</color>
+    <color name="pl_cal_grid">#FF687A6C</color>
+    <color name="pl_today_ring">#FF7BEA91</color>
+    <color name="pl_mood_bg">#FF265429</color>
+
+    <!-- 노랑 -->
+    <color name="py_toolbar">#FF0F0C05</color>
+    <color name="py_accent">#FFF0C74C</color>
+    <color name="py_accent_soft">#33F0C74C</color>
+    <color name="py_bg">#FF0C0A06</color>
+    <color name="py_surface">#FF1A1814</color>
+    <color name="py_section">#FF23201A</color>
+    <color name="py_stroke">#FF312D26</color>
+    <color name="py_text_primary">#FFECE8DF</color>
+    <color name="py_text_secondary">#FFBAB5AB</color>
+    <color name="py_text_muted">#FF948E84</color>
+    <color name="py_divider">#FF312D26</color>
+    <color name="py_on_selected">#FF19150B</color>
+    <color name="py_cal_normal">#FFE4E1D7</color>
+    <color name="py_cal_outside">#FF625C50</color>
+    <color name="py_cal_lunar">#FF8A8275</color>
+    <color name="py_cal_grid">#FF544F45</color>
+    <color name="py_today_ring">#FFF0C74C</color>
+    <color name="py_mood_bg">#FF4A3E1C</color>
 </resources>

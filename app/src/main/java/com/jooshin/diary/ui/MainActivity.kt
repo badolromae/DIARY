@@ -1,15 +1,22 @@
 package com.jooshin.diary.ui
 
 import android.Manifest
+import android.animation.ValueAnimator
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.NumberPicker
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.jooshin.diary.R
 import com.jooshin.diary.data.AppDatabase
 import com.jooshin.diary.data.countsByDay
@@ -34,6 +41,11 @@ class MainActivity : AppCompatActivity() {
     private var currentMonthFirst = DateUtil.firstOfMonthOf(DateUtil.today())
     private var selectedDay = DateUtil.today()
 
+    // 목록을 위아래로 드래그할 때 달력 영역(headerContainer)을 같이 접었다 펼치기 위한 상태
+    private var headerFullHeight = 0
+    private var headerCollapsed = false
+    private var headerAnimator: ValueAnimator? = null
+
     private val requestNotif =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
@@ -50,6 +62,10 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerEntries.adapter = adapter
 
         binding.calendarView.onDaySelected = { handleSelect(it) }
+        binding.calendarView.onSwipeMonth = { dir ->
+            currentMonthFirst = DateUtil.addMonths(currentMonthFirst, dir)
+            loadMonth()
+        }
 
         binding.btnPrevMonth.setOnClickListener {
             currentMonthFirst = DateUtil.addMonths(currentMonthFirst, -1)
@@ -59,6 +75,7 @@ class MainActivity : AppCompatActivity() {
             currentMonthFirst = DateUtil.addMonths(currentMonthFirst, +1)
             loadMonth()
         }
+        binding.tvMonthTitle.setOnClickListener { showMonthPicker() }
         binding.btnToday.setOnClickListener {
             currentMonthFirst = DateUtil.firstOfMonthOf(DateUtil.today())
             selectedDay = DateUtil.today()
@@ -67,7 +84,76 @@ class MainActivity : AppCompatActivity() {
         }
         binding.fabAdd.setOnClickListener { openEditorNew(selectedDay) }
 
+        setupHeaderCollapse()
         maybeRequestNotifPermission()
+    }
+
+    /**
+     * 일기 목록(recyclerEntries)을 위로 드래그하면 달력 영역(headerContainer)이 같이 접히고,
+     * 목록을 아래로 당기거나 맨 위까지 올리면 다시 펼쳐진다.
+     *
+     * 전에는 CoordinatorLayout + AppBarLayout 의 스크롤 연동 기능에 맡겼었는데, 실제로는
+     * AppBarLayout 자체의 "직접 드래그하면 접히는" 내장 동작이 달력의 좌우 스와이프(월 이동)
+     * 제스처와 터치를 서로 먼저 가로채려고 경합하는 문제가 있었다. 그래서 여기서는
+     * CoordinatorLayout 을 쓰지 않고, 목록의 스크롤 방향을 직접 보고 애니메이션으로
+     * 접었다 펼치는 방식으로 바꿨다. (이러면 달력 스와이프와 전혀 부딪히지 않는다)
+     */
+    private fun setupHeaderCollapse() {
+        binding.headerContainer.post {
+            if (headerFullHeight <= 0) headerFullHeight = binding.headerContainer.height
+        }
+        binding.recyclerEntries.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(rv: RecyclerView, dx: Int, dy: Int) {
+                if (headerFullHeight <= 0) return
+                if (!rv.canScrollVertically(-1)) {
+                    expandHeader()
+                    return
+                }
+                if (dy > 4 && !headerCollapsed) collapseHeader()
+                else if (dy < -4 && headerCollapsed) expandHeader()
+            }
+        })
+        // 목록이 맨 위까지 스크롤된 다음에도 계속 아래로 당기면(더 스크롤할 곳이 없는 상태),
+        // onScrolled 만으로는 그 "당기는 동작" 자체를 알 수가 없다(목록이 실제로 움직이지
+        // 않으니까). 그래서 이 "남은 드래그량"은 MainRootLayout 이 중첩 스크롤로 따로 알려주고,
+        // 그 값만큼 손가락을 따라 달력을 실시간으로 펼친다.
+        binding.mainRoot.onOverscrollDown = { extraPx ->
+            if (headerFullHeight > 0) {
+                headerAnimator?.cancel()
+                val newHeight = (binding.headerContainer.height + extraPx).coerceIn(0, headerFullHeight)
+                val lp = binding.headerContainer.layoutParams
+                lp.height = newHeight
+                binding.headerContainer.layoutParams = lp
+                if (newHeight >= headerFullHeight) headerCollapsed = false
+            }
+        }
+    }
+
+    private fun collapseHeader() {
+        headerCollapsed = true
+        animateHeaderTo(0)
+    }
+
+    private fun expandHeader() {
+        headerCollapsed = false
+        animateHeaderTo(headerFullHeight)
+    }
+
+    private fun animateHeaderTo(target: Int) {
+        if (headerFullHeight <= 0) return
+        val current = binding.headerContainer.height
+        if (current == target && headerAnimator?.isRunning != true) return
+        headerAnimator?.cancel()
+        headerAnimator = ValueAnimator.ofInt(current, target).apply {
+            duration = 180
+            addUpdateListener { a ->
+                val v = a.animatedValue as Int
+                val lp = binding.headerContainer.layoutParams
+                lp.height = v
+                binding.headerContainer.layoutParams = lp
+            }
+            start()
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -86,9 +172,15 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, LockActivity::class.java))
             return
         }
+        // 상대가 올린 내용이 도착하면 화면을 새로 그린다
+
         loadMonth()
         loadEntries()
         handleIntentExtras()
+    }
+
+    override fun onPause() {
+        super.onPause()
     }
 
     private fun handleSelect(day: Long) {
@@ -113,6 +205,41 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /** 좌상단 "2026년 8월" 을 눌렀을 때: 년/월을 바로 골라 이동하는 다이얼로그. */
+    private fun showMonthPicker() {
+        val cur = DateUtil.toDate(currentMonthFirst)
+        val yearPicker = NumberPicker(this).apply {
+            minValue = 1900
+            maxValue = 2049
+            value = cur.year.coerceIn(minValue, maxValue)
+            wrapSelectorWheel = false
+        }
+        val monthPicker = NumberPicker(this).apply {
+            minValue = 1
+            maxValue = 12
+            value = cur.monthValue
+            wrapSelectorWheel = true
+        }
+        val row = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER
+            setPadding(dp(8), dp(8), dp(8), 0)
+            addView(yearPicker, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+            addView(monthPicker, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+        }
+        AlertDialog.Builder(this)
+            .setTitle("년/월로 이동")
+            .setView(row)
+            .setNegativeButton("취소", null)
+            .setPositiveButton("이동") { _, _ ->
+                currentMonthFirst = DateUtil.firstOfMonth(yearPicker.value, monthPicker.value)
+                loadMonth()
+            }
+            .show()
+    }
+
+    private fun dp(v: Int) = (v * resources.displayMetrics.density).toInt()
+
     private fun loadEntries() {
         binding.tvSelectedDate.text = DateUtil.formatFullDate(selectedDay)
         val info = KoreanHolidays.info(selectedDay)
@@ -124,11 +251,16 @@ class MainActivity : AppCompatActivity() {
                 else -> palette.textPrimary
             }
         )
-        val sub = listOf(LunarCalendar.longLabel(selectedDay), info.full)
-            .filter { it.isNotEmpty() }.joinToString("  ·  ")
-        binding.tvSelectedInfo.text = sub
+        // 음력은 양력 날짜 옆에 나란히
+        val lunar = LunarCalendar.longLabel(selectedDay)
+        binding.tvSelectedLunar.text = lunar
+        binding.tvSelectedLunar.visibility =
+            if (lunar.isEmpty()) android.view.View.GONE else android.view.View.VISIBLE
+
+        // 공휴일/기념일 이름은 그 아래 줄에
+        binding.tvSelectedInfo.text = info.full
         binding.tvSelectedInfo.visibility =
-            if (sub.isEmpty()) android.view.View.GONE else android.view.View.VISIBLE
+            if (info.full.isEmpty()) android.view.View.GONE else android.view.View.VISIBLE
         binding.tvSelectedInfo.setTextColor(
             if (info.isHoliday) palette.sun else palette.textMuted
         )

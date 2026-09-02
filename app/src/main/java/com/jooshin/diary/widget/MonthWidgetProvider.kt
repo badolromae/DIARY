@@ -126,12 +126,15 @@ class MonthWidgetProvider : BaseCalendarWidget() {
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                 }
-                val lunarStart = sb.length
-                sb.append(LunarCalendar.shortLabel(ed))
-                sb.setSpan(
-                    ForegroundColorSpan(cLunar), lunarStart, sb.length,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
+                // 매달 1일에만 음력을 보여준다 (그 외 날짜는 앱에서 눌러 확인).
+                if (dayNum == 1) {
+                    val lunarStart = sb.length
+                    sb.append(LunarCalendar.shortLabel(ed))
+                    sb.setSpan(
+                        ForegroundColorSpan(cLunar), lunarStart, sb.length,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
                 sb.setSpan(
                     RelativeSizeSpan(0.62f), line2Start, sb.length,
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE

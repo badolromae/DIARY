@@ -9,7 +9,11 @@ enum class AppTheme(val key: String, val label: String, val styleRes: Int) {
     GREEN("green", "딥그린 (원버전)", R.style.Theme_EnJJoy_Green),
     BLUE("blue", "스카이블루", R.style.Theme_EnJJoy_Blue),
     PINK("pink", "연핑크", R.style.Theme_EnJJoy_Pink),
-    MONO("mono", "블랙 + 그레이", R.style.Theme_EnJJoy_Mono);
+    MONO("mono", "블랙 + 그레이", R.style.Theme_EnJJoy_Mono),
+    RED("red", "레드 + 주황", R.style.Theme_EnJJoy_Red),
+    NAVY("navy", "군청", R.style.Theme_EnJJoy_Navy),
+    LIGHT_GREEN("light_green", "연그린", R.style.Theme_EnJJoy_LightGreen),
+    YELLOW("yellow", "노랑", R.style.Theme_EnJJoy_Yellow);
 
     companion object {
         fun of(key: String?): AppTheme = values().firstOrNull { it.key == key } ?: GREEN
@@ -60,6 +64,34 @@ class Palette(private val ctx: Context, val theme: AppTheme) {
             R.color.pm_divider, R.color.pm_on_selected, R.color.pm_cal_normal, R.color.pm_cal_outside,
             R.color.pm_cal_lunar, R.color.pm_cal_grid, R.color.pm_today_ring,
             R.drawable.widget_bg_pm, R.drawable.widget_section_bg_pm, R.drawable.bg_widget_today_cell_pm
+        )
+        AppTheme.RED -> Ids(
+            R.color.pr_toolbar, R.color.pr_accent, R.color.pr_bg, R.color.pr_surface, R.color.pr_section,
+            R.color.pr_stroke, R.color.pr_text_primary, R.color.pr_text_secondary, R.color.pr_text_muted,
+            R.color.pr_divider, R.color.pr_on_selected, R.color.pr_cal_normal, R.color.pr_cal_outside,
+            R.color.pr_cal_lunar, R.color.pr_cal_grid, R.color.pr_today_ring,
+            R.drawable.widget_bg_pr, R.drawable.widget_section_bg_pr, R.drawable.bg_widget_today_cell_pr
+        )
+        AppTheme.NAVY -> Ids(
+            R.color.pn_toolbar, R.color.pn_accent, R.color.pn_bg, R.color.pn_surface, R.color.pn_section,
+            R.color.pn_stroke, R.color.pn_text_primary, R.color.pn_text_secondary, R.color.pn_text_muted,
+            R.color.pn_divider, R.color.pn_on_selected, R.color.pn_cal_normal, R.color.pn_cal_outside,
+            R.color.pn_cal_lunar, R.color.pn_cal_grid, R.color.pn_today_ring,
+            R.drawable.widget_bg_pn, R.drawable.widget_section_bg_pn, R.drawable.bg_widget_today_cell_pn
+        )
+        AppTheme.LIGHT_GREEN -> Ids(
+            R.color.pl_toolbar, R.color.pl_accent, R.color.pl_bg, R.color.pl_surface, R.color.pl_section,
+            R.color.pl_stroke, R.color.pl_text_primary, R.color.pl_text_secondary, R.color.pl_text_muted,
+            R.color.pl_divider, R.color.pl_on_selected, R.color.pl_cal_normal, R.color.pl_cal_outside,
+            R.color.pl_cal_lunar, R.color.pl_cal_grid, R.color.pl_today_ring,
+            R.drawable.widget_bg_pl, R.drawable.widget_section_bg_pl, R.drawable.bg_widget_today_cell_pl
+        )
+        AppTheme.YELLOW -> Ids(
+            R.color.py_toolbar, R.color.py_accent, R.color.py_bg, R.color.py_surface, R.color.py_section,
+            R.color.py_stroke, R.color.py_text_primary, R.color.py_text_secondary, R.color.py_text_muted,
+            R.color.py_divider, R.color.py_on_selected, R.color.py_cal_normal, R.color.py_cal_outside,
+            R.color.py_cal_lunar, R.color.py_cal_grid, R.color.py_today_ring,
+            R.drawable.widget_bg_py, R.drawable.widget_section_bg_py, R.drawable.bg_widget_today_cell_py
         )
     }
 
